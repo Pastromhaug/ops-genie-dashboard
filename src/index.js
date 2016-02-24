@@ -5,11 +5,14 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
+// Components
+import Message from './components/message';
+
 class App extends React.Component {
     render() {
         return (
             <div>
-                eyyyyyyyyyooooooo mayyyne what you up to?
+                <Message/>
             </div>
         )
     }
