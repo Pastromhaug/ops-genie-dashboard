@@ -9,7 +9,7 @@ class Message extends React.Component {
     render() {
         return (
             <div className="vd-message">
-                this is a styled message
+                this is a styled message oh
             </div>
         );
     }
