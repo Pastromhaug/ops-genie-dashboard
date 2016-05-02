@@ -4,16 +4,18 @@
 
 import React from 'react';
 import ReactDOM from 'react-dom';
-
+import getMuiTheme from 'material-ui/styles/getMuiTheme';
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 // Components
-import Message from './components/message';
+import Content from './components/content';
+require('./styles/general.css');
 
 class App extends React.Component {
     render() {
         return (
-            <div>
-                <Message/>
-            </div>
+            <MuiThemeProvider muiTheme={getMuiTheme()}>
+                <Content/>
+            </MuiThemeProvider>
         )
     }
 }
