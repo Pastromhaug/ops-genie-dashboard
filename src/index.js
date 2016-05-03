@@ -6,6 +6,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import { Router, Route, Link, browserHistory } from 'react-router';
 // Components
 import Content from './components/content';
 require('./styles/general.css');
@@ -20,4 +21,14 @@ class App extends React.Component {
     }
 }
 
-ReactDOM.render(<App/>, document.getElementById('main'));
+class Routes extends React.Component {
+    render() {
+        return (
+            <Router history = {browserHistory}>
+                <Route path="/" component = {App}/>
+            </Router>
+        )
+    };
+}
+
+ReactDOM.render(<Routes/>, document.getElementById('main'));
