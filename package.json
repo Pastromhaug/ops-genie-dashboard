@@ -30,6 +30,7 @@
     "react-mdl": "^1.5.4",
     "react-router": "^2.4.0",
     "react-tap-event-plugin": "^1.0.0",
+    "react-youtube": "^6.1.0",
     "style-loader": "^0.13.1",
     "webpack": "^1.13.0",
     "webpack-dev-server": "^1.14.1"

@@ -7,6 +7,8 @@ import AppBar from 'material-ui/AppBar'
 import Drawer from 'material-ui/Drawer'
 import {List, ListItem} from 'material-ui/List'
 import Avatar from 'material-ui/Avatar'
+import YouTube from 'react-youtube'
+import Card from 'material-ui/Card'
 
 
 
@@ -27,7 +29,7 @@ const itemstyles = {
 const appbarstyle = {
     container: {
         margin: '0px',
-        marginLeft: '255px'
+        marginLeft: '256px'
     }
 };
 
@@ -36,6 +38,22 @@ const avatarstyle = {
         margin: '50px'
     }
 };
+
+const cardstyle = {
+    container: {
+        marginLeft: '272px',
+        marginRight: '16px',
+        marginTop: '10px',
+        padding: '16px'
+    }
+};
+
+const playerstyle = {
+    container: {
+        margin: 'auto'
+    }
+};
+
 
 class Content extends React.Component{
     render() {
@@ -74,6 +92,10 @@ class Content extends React.Component{
                 <AppBar style={appbarstyle.container} showMenuIconButton={false}
                     title="Change The World"
                 />
+                <Card style={cardstyle.container}>
+                    <YouTube style={playerstyle.container}
+                        videoId={'vC8gJ0_9o4M'}/>
+                </Card>
             </div>
         )
     };
