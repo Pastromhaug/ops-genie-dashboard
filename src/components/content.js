@@ -3,98 +3,90 @@
  */
 
 import React from 'react';
-import AppBar from 'material-ui/AppBar'
-import Drawer from 'material-ui/Drawer'
-import {List, ListItem} from 'material-ui/List'
-import Avatar from 'material-ui/Avatar'
+import {Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn} from 'material-ui/Table';
+import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'material-ui/Card';
+import AppBar from 'material-ui/AppBar';
+import {List, ListItem} from 'material-ui/List';
 import YouTube from 'react-youtube'
-import Card from 'material-ui/Card'
 
 
 
-const styles = {
+const cardHeaderStyles = {
     container: {
-        color: 'red',
-        backgroundColor: 'green'
+        backgroundColor: 'rgb(232,232,232)'
     }
 };
 
-const itemstyles = {
+const cardStyles = {
     container: {
-        backgroundColor: 'yellow',
-        padding: '16px'
+        margin: '16px'
     }
 };
 
-const appbarstyle = {
+const appbarStyles = {
     container: {
-        margin: '0px',
-        marginLeft: '256px'
+        marginBottom: '32px',
+        textAlign: 'center'
     }
 };
 
-const avatarstyle = {
-    container: {
-        margin: '50px'
-    }
-};
 
-const cardstyle = {
-    container: {
-        marginLeft: '272px',
-        marginRight: '16px',
-        marginTop: '10px',
-        padding: '16px'
-    }
-};
 
-const playerstyle = {
-    container: {
-        margin: 'auto'
-    }
-};
+
 
 
 class Content extends React.Component{
     render() {
+
+        var serviceTableList = this.props.services.map(function(service) {
+            return (
+                <TableRow key={service.service}>
+                    <TableRowColumn>{service.service}</TableRowColumn>
+                    <TableRowColumn>{service.availability}</TableRowColumn>
+                    <TableRowColumn>{service.downtime}</TableRowColumn>
+                </TableRow>
+            );
+        });
+
+        var alertsList = this.props.alerts.map(function(alert) {
+            return (
+                <ListItem primaryText={alert}/>
+            );
+        });
+
         return(
             <div>
-                <div style={styles.container}>
-                    <Drawer open={true}>
-                        <Avatar style={avatarstyle.container} size={60}/>
-                        <div>
-                            <List subheader="Lecture Videos">
-                                <ListItem primaryText="Sent mail"  />
-                                <ListItem primaryText="Drafts" />
-                                <ListItem
-                                    primaryText="Inbox"
-                                    primaryTogglesNestedList={true}
-                                    nestedItems={[
-                                    <ListItem
-                                        key={1}
-                                        primaryText="Starred"
-                                    />,
-                                    <ListItem
-                                        key={2}
-                                        primaryText="Sent Mail"
-                                        nestedItems={[
-                                        <ListItem
-                                            key={1} primaryText="Drafts"
-                                        />
-                                        ]}
-                                    />
-                                    ]}
-                                />
-                            </List>
-                        </div>
-                    </Drawer>
-                </div>
-                <AppBar style={appbarstyle.container} showMenuIconButton={false}
-                    title="Change The World"
+                <AppBar
+                    title="Services Health Dashboard"
+                    showMenuIconButton={false}
+                    style = {appbarStyles.container}
                 />
-                <Card style={cardstyle.container}>
-                    <YouTube style={playerstyle.container}
-                        videoId={'vC8gJ0_9o4M'}/>
+                <Card style={cardStyles.container} >
+                    <CardHeader
+                        title="Status of Services"
+                        style = {cardHeaderStyles.container}
+                    />
+                    <Table>
+                        <TableHeader>
+                            <TableRow>
+                                <TableHeaderColumn>Service</TableHeaderColumn>
+                                <TableHeaderColumn>Availability</TableHeaderColumn>
+                                <TableHeaderColumn>Downtime</TableHeaderColumn>
+                            </TableRow>
+                        </TableHeader>
+                        <TableBody>
+                            {serviceTableList};
+                        </TableBody>
+                    </Table>
+                </Card>
+                <Card style={cardStyles.container} >
+                    <CardHeader
+                        title="Alerts"
+                        style = {cardHeaderStyles.container}
+                    />
+                    <List>
+                        {alertsList}
+                    </List>
                 </Card>
             </div>
         )
