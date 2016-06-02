@@ -7,6 +7,9 @@ import ReactDOM from 'react-dom';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import { Router, Route, Link, browserHistory } from 'react-router';
+import { Provider } from 'react-redux';
+import { createStore } from 'redux'
+import mainReducer from './reducers/index'
 // Components
 import Content from './components/content';
 require('./styles/general.css');
@@ -42,17 +45,22 @@ const alerts = [
     'me'
 ];
 
+
+
+let store = createStore(mainReducer);
+
+
 class App extends React.Component {
     render() {
         return (
             <MuiThemeProvider muiTheme={getMuiTheme()}>
-                <Content services={services} alerts={alerts}/>
+                <Content services={services} alerts={alerts} store={store}/>
             </MuiThemeProvider>
         )
     }
 }
 
-class Routes extends React.Component {
+class Routing extends React.Component {
     render() {
         return (
             <Router history = {browserHistory}>
@@ -62,4 +70,4 @@ class Routes extends React.Component {
     };
 }
 
-ReactDOM.render(<Routes/>, document.getElementById('main'));
+ReactDOM.render(<Routing/>, document.getElementById('main'));

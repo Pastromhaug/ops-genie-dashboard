@@ -7,7 +7,9 @@ import {Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColu
 import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'material-ui/Card';
 import AppBar from 'material-ui/AppBar';
 import {List, ListItem} from 'material-ui/List';
-import YouTube from 'react-youtube'
+import YouTube from 'react-youtube';
+import {ADD_ALERT} from '../actionTypes';
+import {addAlert} from '../actionTypes';
 
 
 
@@ -36,7 +38,12 @@ const appbarStyles = {
 
 
 class Content extends React.Component{
+
     render() {
+
+        console.log(this.props.store.getState());
+        this.props.store.dispatch(addAlert('aleeert'));
+        console.log(this.props.store.getState());
 
         var serviceTableList = this.props.services.map(function(service) {
             return (
@@ -50,7 +57,7 @@ class Content extends React.Component{
 
         var alertsList = this.props.alerts.map(function(alert) {
             return (
-                <ListItem primaryText={alert}/>
+                <ListItem primaryText={alert} key={alert}/>
             );
         });
 
