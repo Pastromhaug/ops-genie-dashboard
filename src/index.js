@@ -11,7 +11,7 @@ import { Provider } from 'react-redux';
 import { createStore } from 'redux'
 import mainReducer from './reducers/index'
 // Components
-import ContentCards from './components/contentCards';   
+import ContentCards from './components/contentCards';
 require('./styles/general.css');
 
 
@@ -42,3 +42,5 @@ class Routing extends React.Component {
 }
 
 ReactDOM.render(<Routing/>, document.getElementById('main'));
+
+//<ContentCards/>

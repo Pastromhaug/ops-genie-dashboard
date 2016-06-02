@@ -29,23 +29,22 @@ const appbarStyles = {
 };
 
 
-class ContentCards extends React.Component() {
+class ContentCards extends React.Component {
 
     render() {
         return (
             <div>
-                <AppBar onClick={onNewAlert('eyyy')}
+                <AppBar
                         title="Services Health Dashboard"
                         showMenuIconButton={false}
                         style={appbarStyles.container}
                 />
-
                 <Card style={cardStyles.container}>
                     <CardHeader
                         title="Status of Services"
                         style={cardHeaderStyles.container}
                     />
-
+                    <VisibleServicesTable/>
                 </Card>
 
                 <Card style={cardStyles.container}>
@@ -53,7 +52,7 @@ class ContentCards extends React.Component() {
                         title="Alerts"
                         style={cardHeaderStyles.container}
                     />
-
+                    <VisibleAlertsList/>
                 </Card>
             </div>
         )
