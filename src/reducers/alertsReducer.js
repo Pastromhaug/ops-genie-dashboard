@@ -2,21 +2,12 @@
  * Created by perandre on 6/1/16.
  */
 
-const createAlert = (state, action) => {
-    switch (action.type) {
-        case 'ADD_ALERT':
-            return action.text;
-        default:
-            return state;
-    }
-};
 
-
-const alerts = (state = [], action) => {
+const alerts = (state = ['heyy'], action) => {
     switch (action.type) {
         case 'ADD_ALERT':
             return [
-                createAlert(state, action),
+               action.text,
                 ...state.alerts
             ];
         default:

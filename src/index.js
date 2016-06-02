@@ -11,39 +11,8 @@ import { Provider } from 'react-redux';
 import { createStore } from 'redux'
 import mainReducer from './reducers/index'
 // Components
-import Content from './components/content';
+import ContentCards from './components/contentCards';   
 require('./styles/general.css');
-
-const services = [
-    {
-        service: "Content",
-        availability: '99.5%',
-        downtime: '0:05'
-    },
-    {
-        service: "DMH",
-        availability: '92.5%',
-        downtime: '0:00'
-    },
-    {
-        service: "Insights",
-        availability: '100%',
-        downtime: '0:00'
-    },
-    {
-        service: "Recommendations",
-        availability: '99.3%',
-        downtime: '0:02'
-    }
-];
-
-const alerts = [
-    "hey",
-    "thre",
-    'fjdk;as',
-    'kffasdj',
-    'me'
-];
 
 
 
@@ -53,9 +22,11 @@ let store = createStore(mainReducer);
 class App extends React.Component {
     render() {
         return (
-            <MuiThemeProvider muiTheme={getMuiTheme()}>
-                <Content services={services} alerts={alerts} store={store}/>
-            </MuiThemeProvider>
+            <Provider store={store}>
+                <MuiThemeProvider muiTheme={getMuiTheme()}>
+                    <ContentCards/>
+                </MuiThemeProvider>
+            </Provider>
         )
     }
 }

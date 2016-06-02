@@ -1,8 +1,10 @@
-import { combineReducers } from 'redux'
-import alerts from './alertsReducer'
+import { combineReducers } from 'redux';
+import alerts from './alertsReducer';
+import services from './servicesReducer';
 
 const mainReducer = combineReducers({
-    alerts
+    alerts,
+    services
 });
 
 export default mainReducer
