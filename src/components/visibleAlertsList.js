@@ -13,7 +13,10 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        onChange: (text) => dispatch(addAlert(text))
+        onAddAlert: (text) => {
+            console.log(addAlert(text));
+            dispatch(addAlert(text))
+        }
     }
 };
 

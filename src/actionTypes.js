@@ -12,5 +12,5 @@ export function addAlert(text) {
 export const UPDATE_SERVICE = 'UPDATE_SERVICE';
 
 export function updateService(service, downtime, availability) {
-    return {type: UPDATE_SERVICE, service: {service: service, downtime: downtime, avaiability: availability}}
+    return {type: UPDATE_SERVICE, service: {service: service, downtime: downtime, availability: availability}}
 }

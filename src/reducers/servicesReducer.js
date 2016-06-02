@@ -8,17 +8,17 @@ const services = (state = [{service: "ay", downtime: "dklfa;", availability: "93
         case 'UPDATE_SERVICE':
             var found = false;
             var newstate = [];
-            for (var i = 1; i < state.length; i++) {
-                if (newstate[i].service == action.service.service) {
-                    newstate.append(action.service);
+            for (var i = 0; i < state.length; i++) {
+                if (state[i].service == action.service.service) {
+                    newstate = newstate.concat([action.service]);
                     found = true;
                 }
                 else {
-                    newstate.append(state[i]);
+                    newstate = newstate.concat([state[i]]);
                 }
             }
             if (found == false) {
-                newstate.append(action.service);
+                newstate = newstate.concat([action.service]);
             }
             return newstate;
         default:

@@ -8,7 +8,7 @@ const alerts = (state = ['heyy'], action) => {
         case 'ADD_ALERT':
             return [
                action.text,
-                ...state.alerts
+                ...state
             ];
         default:
             return state
