@@ -11,7 +11,7 @@ import { Provider } from 'react-redux';
 import { createStore } from 'redux'
 import mainReducer from './reducers/index'
 // Components
-import ContentCards from './components/contentCards';
+import VisibleContentCards from './components/visibleContentCards';
 require('./styles/general.css');
 
 
@@ -24,7 +24,7 @@ class App extends React.Component {
         return (
             <Provider store={store}>
                 <MuiThemeProvider muiTheme={getMuiTheme()}>
-                    <ContentCards/>
+                    <VisibleContentCards/>
                 </MuiThemeProvider>
             </Provider>
         )

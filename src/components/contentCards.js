@@ -4,9 +4,10 @@
 
 import React from 'react';
 import AppBar from 'material-ui/AppBar';
-import VisibleServicesTable from './visibleServicesTable';
-import VisibleAlertsList from './visibleAlertsList';
 import {Card,CardHeader, CardTitle} from 'material-ui/Card';
+import {Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn} from 'material-ui/Table';
+import FlatButton from 'material-ui/FlatButton';
+import {List, ListItem} from 'material-ui/List';
 
 
 const cardHeaderStyles = {
@@ -29,35 +30,56 @@ const appbarStyles = {
 };
 
 
-class ContentCards extends React.Component {
+const ContentCards = ({state, onAddAlert, onUpdateService}) => {
 
-    render() {
-        return (
-            <div>
-                <AppBar
-                        title="Services Health Dashboard"
-                        showMenuIconButton={false}
-                        style={appbarStyles.container}
+    return (
+        <div>
+            <AppBar
+                title="Services Health Dashboard"
+                showMenuIconButton={false}
+                style={appbarStyles.container}
+            />
+            <Card style={cardStyles.container}>
+                <CardHeader
+                    title="Status of Services"
+                    style={cardHeaderStyles.container}
                 />
-                <Card style={cardStyles.container}>
-                    <CardHeader
-                        title="Status of Services"
-                        style={cardHeaderStyles.container}
-                    />
-                    <VisibleServicesTable/>
-                </Card>
+                <FlatButton label="Default" onClick={() => onUpdateService('hey2', "042342", "23%")} />
+                <Table>
+                    <TableHeader>
+                        <TableRow>
+                            <TableHeaderColumn>Service</TableHeaderColumn>
+                            <TableHeaderColumn>Availability</TableHeaderColumn>
+                            <TableHeaderColumn>Downtime</TableHeaderColumn>
+                        </TableRow>
+                    </TableHeader>
+                    <TableBody>
+                        {state.services.map( service =>
+                            <TableRow key={service.service}>
+                                <TableRowColumn>{service.service}</TableRowColumn>
+                                <TableRowColumn>{service.availability}</TableRowColumn>
+                                <TableRowColumn>{service.downtime}</TableRowColumn>
+                            </TableRow>
+                        )}
+                    </TableBody>
+                </Table>
+            </Card>
 
-                <Card style={cardStyles.container}>
-                    <CardHeader
-                        title="Alerts"
-                        style={cardHeaderStyles.container}
-                    />
-                    <VisibleAlertsList/>
-                </Card>
-            </div>
-        )
-    }
-}
+            <Card style={cardStyles.container}>
+                <CardHeader
+                    title="Alerts"
+                    style={cardHeaderStyles.container}
+                />
+                <FlatButton label="Default" onClick={() => onAddAlert('hey2')} />
+                <List>
+                    {state.alerts.map( alert =>
+                        <ListItem primaryText={alert} key={alert}/>
+                    )}
+                </List>
+            </Card>
+        </div>
+    )
+};
 
 export default ContentCards;
 
