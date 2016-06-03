@@ -47,18 +47,11 @@ const ContentCards = ({state, onAddAlert, onUpdateService}) => {
                 />
                 <FlatButton label="Default" onClick={() => {
                     onUpdateService('hey2', "042342", "23%");
-                    $.ajax({
-                        type: 'GET',
-                        url: 'https://api.opsgenie.com/v1/json/alert?apiKey=d541ec04-c286-48df-95fa-79c59c9def5d',
-                        dataType: 'jsonp',
-                        crossDomain:true,
-                        jsonp: false,
-                        jsonpCallback: 'jsonp_func',
-                        success: function(data){
-                            console.log(data);
-                        }
+                    $.getJSON('https://npdbgkbttw.localtunnel.me/data', (data) => {
+                        console.log('here is the data: ');
+                        console.log(data);
+                        onAddAlert(data[0].message);
                     });
-                    $.getJSON('https://api.opsgenie.com/v1/json/alert?apiKey=d541ec04-c286-48df-95fa-79c59c9def5d', (data) => console.log(data));
                 }} />
                 <Table>
                     <TableHeader>
@@ -96,11 +89,5 @@ const ContentCards = ({state, onAddAlert, onUpdateService}) => {
     )
 };
 
-function jsonp_func(data) {
-    return data;
-}
 
 export default ContentCards;
-
-//<VisibleServicesTable/>
-//<VisibleAlertsList/>

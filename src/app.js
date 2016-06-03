@@ -8,17 +8,36 @@ app.use(bodyParser.json());
 
 app.use(express.static(__dirname + '/public'));
 
+
+data = {};
 //init();
 
 app.post('/', function(req, res) {
     console.log('post received');
-    console.log(req.body);
+    //console.log(req.body);
+    const resp = req.body;
+    const newalert =
+        {
+                service: resp.source.type,
+                message: resp.alert.message,
+                user: resp.alert.userId,
+                alertId: resp.alert.alertId
+        };
+    data = [newalert].concat(data);
+    console.log(data);
+
     res.send('hi there');
 });
 
 app.get('/', function (req, res) {
     console.log(__dirname + '/public/index.html');
     res.sendFile(__dirname + '/index.html');
+});
+
+app.get('/data', function(req, res) {
+    console.log('getting data');
+    res.setHeader('Content-Type', 'application/json');
+    res.send(JSON.stringify(data));
 });
 
 app.listen(8000, function () {
