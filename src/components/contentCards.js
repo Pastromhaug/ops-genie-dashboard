@@ -8,6 +8,7 @@ import {Card,CardHeader, CardTitle} from 'material-ui/Card';
 import {Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn} from 'material-ui/Table';
 import FlatButton from 'material-ui/FlatButton';
 import {List, ListItem} from 'material-ui/List';
+import $ from 'jquery';
 
 
 const cardHeaderStyles = {
@@ -44,7 +45,21 @@ const ContentCards = ({state, onAddAlert, onUpdateService}) => {
                     title="Status of Services"
                     style={cardHeaderStyles.container}
                 />
-                <FlatButton label="Default" onClick={() => onUpdateService('hey2', "042342", "23%")} />
+                <FlatButton label="Default" onClick={() => {
+                    onUpdateService('hey2', "042342", "23%");
+                    $.ajax({
+                        type: 'GET',
+                        url: 'https://api.opsgenie.com/v1/json/alert?apiKey=d541ec04-c286-48df-95fa-79c59c9def5d',
+                        dataType: 'jsonp',
+                        crossDomain:true,
+                        jsonp: false,
+                        jsonpCallback: 'jsonp_func',
+                        success: function(data){
+                            console.log(data);
+                        }
+                    });
+                    //$.getJSON('https://api.opsgenie.com/v1/json/alert?apiKey=d541ec04-c286-48df-95fa-79c59c9def5d', (data) => console.log(data));
+                }} />
                 <Table>
                     <TableHeader>
                         <TableRow>
@@ -80,6 +95,10 @@ const ContentCards = ({state, onAddAlert, onUpdateService}) => {
         </div>
     )
 };
+
+function jsonp_func(data) {
+    return data;
+}
 
 export default ContentCards;
 
