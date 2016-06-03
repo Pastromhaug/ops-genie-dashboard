@@ -58,7 +58,7 @@ const ContentCards = ({state, onAddAlert, onUpdateService}) => {
                             console.log(data);
                         }
                     });
-                    //$.getJSON('https://api.opsgenie.com/v1/json/alert?apiKey=d541ec04-c286-48df-95fa-79c59c9def5d', (data) => console.log(data));
+                    $.getJSON('https://api.opsgenie.com/v1/json/alert?apiKey=d541ec04-c286-48df-95fa-79c59c9def5d', (data) => console.log(data));
                 }} />
                 <Table>
                     <TableHeader>

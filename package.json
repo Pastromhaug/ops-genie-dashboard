@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "webpack-dev-server --hot --inline --progress --colors --host 10.40.104.111 --port 8000"
+    "start": "webpack-dev-server --hot --inline --progress --colors --port 8000"
   },
   "repository": {
     "type": "git",
@@ -25,6 +25,7 @@
     "css-loader": "^0.23.1",
     "express": "^4.13.4",
     "file-loader": "^0.8.5",
+    "jQuery": "^1.7.4",
     "material-ui": "^0.15.0-beta.2",
     "react": "^15.0.2",
     "react-dom": "^15.0.2",
