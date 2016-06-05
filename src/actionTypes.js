@@ -5,8 +5,8 @@
 
 export const ADD_ALERT = 'ADD_ALERT';
 
-export function addAlert(text) {
-    return { type: ADD_ALERT, text: text }
+export function addAlert(alert) {
+    return { type: ADD_ALERT, alert: alert}
 }
 
 export const UPDATE_SERVICE = 'UPDATE_SERVICE';

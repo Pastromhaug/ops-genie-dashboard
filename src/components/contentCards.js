@@ -37,62 +37,69 @@ socket.on('server event', function (data) {
     socket.emit('client event', { socket: 'io' });
 });
 
-const ContentCards = ({state, onAddAlert, onUpdateService}) => {
-
-    return (
-        <div>
-            <AppBar
-                title="Services Health Dashboard"
-                showMenuIconButton={false}
-                style={appbarStyles.container}
-            />
-            <Card style={cardStyles.container}>
-                <CardHeader
-                    title="Status of Services"
-                    style={cardHeaderStyles.container}
+//const ContentCards = ({state, onAddAlert, onUpdateService}) => {
+class ContentCards extends React.Component {
+    render() {
+        let {state, onAddAlert, onUpdateService} = this.props;
+        return (
+            <div>
+                <AppBar
+                    title="Services Health Dashboard"
+                    showMenuIconButton={false}
+                    style={appbarStyles.container}
                 />
-                <FlatButton label="Default" onClick={() => {
-                    onUpdateService('hey2', "042342", "23%");
-                    $.getJSON('https://lemrktkxfz.localtunnel.me/data', (data) => {
-                        console.log('here is the data: ');
-                        console.log(data);
-                        onAddAlert(data[0].message);
-                    });
-                }} />
-                <Table>
-                    <TableHeader>
-                        <TableRow>
-                            <TableHeaderColumn>Service</TableHeaderColumn>
-                            <TableHeaderColumn>Availability</TableHeaderColumn>
-                            <TableHeaderColumn>Downtime</TableHeaderColumn>
-                        </TableRow>
-                    </TableHeader>
-                    <TableBody>
-                        {state.services.map( service =>
-                            <TableRow key={service.service}>
-                                <TableRowColumn>{service.service}</TableRowColumn>
-                                <TableRowColumn>{service.availability}</TableRowColumn>
-                                <TableRowColumn>{service.downtime}</TableRowColumn>
+                <Card style={cardStyles.container}>
+                    <CardHeader
+                        title="Status of Services"
+                        style={cardHeaderStyles.container}
+                    />
+                    <Table>
+                        <TableHeader>
+                            <TableRow>
+                                <TableHeaderColumn>Service</TableHeaderColumn>
+                                <TableHeaderColumn>Availability</TableHeaderColumn>
+                                <TableHeaderColumn>Downtime</TableHeaderColumn>
                             </TableRow>
-                        )}
-                    </TableBody>
-                </Table>
-            </Card>
+                        </TableHeader>
+                        <TableBody>
+                            {state.services.map(service =>
+                                <TableRow key={service.service}>
+                                    <TableRowColumn>{service.service}</TableRowColumn>
+                                    <TableRowColumn>{service.availability}</TableRowColumn>
+                                    <TableRowColumn>{service.downtime}</TableRowColumn>
+                                </TableRow>
+                            )}
+                        </TableBody>
+                    </Table>
+                </Card>
 
-            <Card style={cardStyles.container}>
-                <CardHeader
-                    title="Alerts"
-                    style={cardHeaderStyles.container}
-                />
-                <FlatButton label="Default" onClick={() => onAddAlert('hey2')} />
-                <List>
-                    {state.alerts.map( alert =>
-                        <ListItem primaryText={alert} key={alert}/>
-                    )}
-                </List>
-            </Card>
-        </div>
-    )
+                <Card style={cardStyles.container}>
+                    <CardHeader
+                        title="Alerts"
+                        style={cardHeaderStyles.container}
+                    />
+                    <Table>
+                        <TableHeader>
+                            <TableRow>
+                                <TableHeaderColumn>Service</TableHeaderColumn>
+                                <TableHeaderColumn>User</TableHeaderColumn>
+                                <TableHeaderColumn>Message</TableHeaderColumn>
+                            </TableRow>
+                        </TableHeader>
+                        <TableBody>
+                            {state.alerts.map(alert =>
+                                <TableRow key={alert.alert.alertId}>
+                                    <TableRowColumn>{alert.source.type}</TableRowColumn>
+                                    <TableRowColumn>{alert.alert.username}</TableRowColumn>
+                                    <TableRowColumn>{alert.alert.message}</TableRowColumn>
+                                </TableRow>
+                            )}
+                        </TableBody>
+                    </Table>
+                </Card>
+            </div>
+        )
+    }
 };
 
 

@@ -33,7 +33,7 @@ app.post('/', function(req, res) {
             service: resp.source.type,
             message: resp.alert.message,
             user: resp.alert.userId,
-            alertId: resp.alert.alertId
+            alertId: resp.alert.username
         };
     data = [newalert].concat(data);
     io.sockets.emit('server event', newalert);
