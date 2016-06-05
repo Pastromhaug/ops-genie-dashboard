@@ -8,13 +8,7 @@
 <body>
 <div id="main"></div>
 <script src="/socket.io/socket.io.js"></script>
-<script>
-    var socket = io();
-    socket.on('server event', function (data) {
-        console.log(data);
-        socket.emit('client event', { socket: 'io' });
-    });
-</script>
+<script>var socket = io();</script>
 </body>
 <script src="./bundle.js"></script>
 <style>

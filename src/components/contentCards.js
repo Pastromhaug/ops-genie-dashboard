@@ -10,6 +10,8 @@ import FlatButton from 'material-ui/FlatButton';
 import {List, ListItem} from 'material-ui/List';
 import $ from 'jquery';
 
+var socket = io();
+
 
 const cardHeaderStyles = {
     container: {
@@ -30,6 +32,10 @@ const appbarStyles = {
     }
 };
 
+socket.on('server event', function (data) {
+    console.log(data);
+    socket.emit('client event', { socket: 'io' });
+});
 
 const ContentCards = ({state, onAddAlert, onUpdateService}) => {
 

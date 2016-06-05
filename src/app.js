@@ -11,6 +11,7 @@ app.use(bodyParser.json());
 
 app.use(express.static(__dirname + '/public'));
 
+
 io.on('connection', function (socket) {
     socket.emit('server event', { foo: 'bar' });
     socket.on('client event', function (data) {
@@ -29,12 +30,13 @@ app.post('/', function(req, res) {
     const resp = req.body;
     const newalert =
         {
-                service: resp.source.type,
-                message: resp.alert.message,
-                user: resp.alert.userId,
-                alertId: resp.alert.alertId
+            service: resp.source.type,
+            message: resp.alert.message,
+            user: resp.alert.userId,
+            alertId: resp.alert.alertId
         };
     data = [newalert].concat(data);
+    io.sockets.emit('server event', newalert);
     console.log(resp);
 
     res.send('hi there');
