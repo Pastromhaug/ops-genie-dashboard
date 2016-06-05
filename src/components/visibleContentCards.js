@@ -16,7 +16,6 @@ const mapDispatchToProps = (dispatch) => {
     return {
         onUpdateService: (service, downtime, availability) => dispatch(updateService(service, downtime, availability)),
         onAddAlert: (alert) => {
-            console.log(addAlert(alert));
             dispatch(addAlert(alert))
         }
     }

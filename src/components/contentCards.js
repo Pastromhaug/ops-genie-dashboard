@@ -36,12 +36,12 @@ const appbarStyles = {
 
 class ContentCards extends React.Component {
 
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
         socket.on('server event', function (data) {
             console.log(data);
             socket.emit('client event', { socket: 'io' });
-            this.props.onAddAlert(data);
+            props.onAddAlert(data);
         });
     }
 
@@ -98,13 +98,13 @@ class ContentCards extends React.Component {
                             </TableRow>
                         </TableHeader>
                         <TableBody>
-                            {_state.alerts.map(alert =>
-                                <TableRow key={alert.alert.alertId}>
-                                    <TableRowColumn>{alert.source.type}</TableRowColumn>
-                                    <TableRowColumn>{alert.alert.username}</TableRowColumn>
-                                    <TableRowColumn>{alert.alert.message}</TableRowColumn>
-                                </TableRow>
-                            )}
+                            {_state.alerts.map(_alert =>
+                                <TableRow>
+                                    <TableRowColumn>{_alert.source.type}</TableRowColumn>
+                                    <TableRowColumn>{_alert.alert.username}</TableRowColumn>
+                                    <TableRowColumn>{_alert.alert.message}</TableRowColumn>
+                                </TableRow>)
+                            }
                         </TableBody>
                     </Table>
                 </Card>
