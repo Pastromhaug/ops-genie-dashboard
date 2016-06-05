@@ -19,6 +19,7 @@ require('./styles/general.css');
 let store = createStore(mainReducer);
 
 
+
 class App extends React.Component {
     render() {
         return (

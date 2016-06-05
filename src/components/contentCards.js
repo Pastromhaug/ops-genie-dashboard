@@ -32,15 +32,26 @@ const appbarStyles = {
     }
 };
 
-socket.on('server event', function (data) {
-    console.log(data);
-    socket.emit('client event', { socket: 'io' });
-});
 
-//const ContentCards = ({state, onAddAlert, onUpdateService}) => {
+
 class ContentCards extends React.Component {
+
+    constructor() {
+        super();
+        socket.on('server event', function (data) {
+            console.log(data);
+            socket.emit('client event', { socket: 'io' });
+            this.props.onAddAlert(data);
+        });
+    }
+
+    updateState() {
+        let {_state, onAddAlert, onUpdateService} = this.props;
+        console.log('yay updating state');
+    }
+
     render() {
-        let {state, onAddAlert, onUpdateService} = this.props;
+        let {_state, onAddAlert, onUpdateService} = this.props;
         return (
             <div>
                 <AppBar
@@ -62,7 +73,7 @@ class ContentCards extends React.Component {
                             </TableRow>
                         </TableHeader>
                         <TableBody>
-                            {state.services.map(service =>
+                            {_state.services.map(service =>
                                 <TableRow key={service.service}>
                                     <TableRowColumn>{service.service}</TableRowColumn>
                                     <TableRowColumn>{service.availability}</TableRowColumn>
@@ -87,7 +98,7 @@ class ContentCards extends React.Component {
                             </TableRow>
                         </TableHeader>
                         <TableBody>
-                            {state.alerts.map(alert =>
+                            {_state.alerts.map(alert =>
                                 <TableRow key={alert.alert.alertId}>
                                     <TableRowColumn>{alert.source.type}</TableRowColumn>
                                     <TableRowColumn>{alert.alert.username}</TableRowColumn>
@@ -100,7 +111,7 @@ class ContentCards extends React.Component {
             </div>
         )
     }
-};
+}
 
 
 export default ContentCards;

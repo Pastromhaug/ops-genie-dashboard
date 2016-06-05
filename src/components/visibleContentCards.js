@@ -9,7 +9,7 @@ import {updateService, addAlert} from '../actionTypes';
 
 
 const mapStateToProps = (state) => {
-    return {state: state}
+    return {_state: state}
 };
 
 const mapDispatchToProps = (dispatch) => {
