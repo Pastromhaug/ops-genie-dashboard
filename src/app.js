@@ -24,7 +24,7 @@ app.post('/', function(req, res) {
                 alertId: resp.alert.alertId
         };
     data = [newalert].concat(data);
-    console.log(data);
+    console.log(resp);
 
     res.send('hi there');
 });

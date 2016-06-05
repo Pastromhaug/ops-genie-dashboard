@@ -47,7 +47,7 @@ const ContentCards = ({state, onAddAlert, onUpdateService}) => {
                 />
                 <FlatButton label="Default" onClick={() => {
                     onUpdateService('hey2', "042342", "23%");
-                    $.getJSON('https://npdbgkbttw.localtunnel.me/data', (data) => {
+                    $.getJSON('https://lemrktkxfz.localtunnel.me/data', (data) => {
                         console.log('here is the data: ');
                         console.log(data);
                         onAddAlert(data[0].message);
