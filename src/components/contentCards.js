@@ -30,7 +30,7 @@ const appbarStyles = {
     container: {
         marginBottom: '48px',
         textAlign: 'center',
-        backgroundColor: '#A8A8A8'
+        backgroundColor: '#a3c1a3'
     }
 };
 
