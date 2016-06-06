@@ -3,13 +3,15 @@
  */
 
 
+import {ADD_ALERT, UPDATE_ALERT} from '../actionTypes'
+
 const alerts = (state = []
     , action) => {
 
     var id;
     var i;
     switch (action.type) {
-        case 'ADD_ALERT':
+        case ADD_ALERT:
             const type = action.alert.action;
             id = action.alert.alert.alias;
             if (type === 'Create') {
@@ -30,7 +32,7 @@ const alerts = (state = []
                 return [...state];
             }
             break;
-        case 'UPDATE_ALERT':
+        case UPDATE_ALERT:
             const newAlert = action.alert;
             id = newAlert.alert.alias;
             for (i = 0; i < state.length; i++) {

@@ -9,6 +9,7 @@ import {Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColu
 import FlatButton from 'material-ui/FlatButton';
 import {List, ListItem} from 'material-ui/List';
 import $ from 'jquery';
+var moment = require('moment');
 
 var socket = io();
 
@@ -56,6 +57,11 @@ class ContentCards extends React.Component {
                 props.onUpdateAlert(data);
             });
         });
+        console.log(moment.utc().valueOf());
+        console.log(moment.utc(moment.utc().valueOf()).format('ddd M/D HH:mm'));
+        props.onUpdateTime(moment.utc().valueOf());
+        this.timeDiff = this.timeDiff.bind(this);
+
 
     }
 
@@ -70,7 +76,7 @@ class ContentCards extends React.Component {
                 />
                 <Card style={cardStyles.container}>
                     <CardHeader
-                        title="Status of Services"
+                        title="Services"
                         style={cardHeaderStyles.container}
                     />
                     <Table>
@@ -102,7 +108,8 @@ class ContentCards extends React.Component {
                         <TableHeader>
                             <TableRow>
                                 <TableHeaderColumn>Service</TableHeaderColumn>
-                                <TableHeaderColumn>User</TableHeaderColumn>
+                                <TableHeaderColumn>Timestamp UTC</TableHeaderColumn>
+                                <TableHeaderColumn>Elapsed Time</TableHeaderColumn>
                                 <TableHeaderColumn>Message</TableHeaderColumn>
                             </TableRow>
                         </TableHeader>
@@ -110,7 +117,12 @@ class ContentCards extends React.Component {
                             {_state.alerts.map(_alert =>
                                 <TableRow>
                                     <TableRowColumn>{_alert.alert.status}</TableRowColumn>
-                                    <TableRowColumn>{_alert.alert.username}</TableRowColumn>
+                                    <TableRowColumn>
+                                        {moment.utc(_alert.alert.createdAt / 1000000).format('ddd M/D HH:mm')}
+                                    </TableRowColumn>
+                                    <TableRowColumn>
+                                        {this.timeDiff(_state.current_time, _alert.alert.createdAt / 1000000)}
+                                    </TableRowColumn>
                                     <TableRowColumn>{_alert.alert.message}</TableRowColumn>
                                 </TableRow>)
                             }
@@ -120,7 +132,23 @@ class ContentCards extends React.Component {
             </div>
         )
     }
-}
 
+    timeDiff(current_time, alert_time) {
+        const a = moment.utc(current_time);
+        const b = moment.utc(alert_time);
+
+        const days = a.diff(b, 'days');
+        const hours  = a.diff(b, 'hours') % 24;
+        const minutes =  a.diff(b, 'minutes') % 60;
+        const seconds =  a.diff(b, 'seconds') % 60;
+
+        var time = '';
+        time += hours + ':' + minutes + ':' + seconds;
+        if (days > 0) {
+            time = days + 'd ' + time;
+        }
+        return time;
+    }
+}
 
 export default ContentCards;

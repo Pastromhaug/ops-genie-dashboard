@@ -5,7 +5,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import ContentCards from './contentCards';
-import {updateService, addAlert, updateAlert} from '../actionTypes';
+import {updateService, addAlert, updateAlert, updateTime} from '../actionTypes';
 
 
 const mapStateToProps = (state) => {
@@ -20,6 +20,9 @@ const mapDispatchToProps = (dispatch) => {
         },
         onUpdateAlert: (alert) => {
             dispatch(updateAlert(alert))
+        },
+        onUpdateTime: (time) => {
+            dispatch(updateTime(time))
         }
     }
 };
