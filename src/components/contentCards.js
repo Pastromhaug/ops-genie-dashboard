@@ -40,12 +40,8 @@ class ContentCards extends React.Component {
         super(props);
         socket.emit('client event', {first: 'clientevent'});
         socket.on('init alerts', (data) => {
-            console.log('init alerts data: ');
-            console.log(data);
             for (var i = 0; i < data.alerts.length; i++) {
                 const newAlert = {alert: data.alerts[i], action: 'Create'};
-                console.log('newAlert:');
-                console.log(newAlert);
                 props.onAddAlert(newAlert);
             }
             socket.on('server event', (data) => {
