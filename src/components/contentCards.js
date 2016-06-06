@@ -21,17 +21,18 @@ const cardHeaderStyles = {
 
 const cardStyles = {
     container: {
-        margin: '16px'
+        margin: '16px',
+        marginBottom: '32px'
     }
 };
 
 const appbarStyles = {
     container: {
-        marginBottom: '32px',
-        textAlign: 'center'
+        marginBottom: '48px',
+        textAlign: 'center',
+        backgroundColor: '#A8A8A8'
     }
 };
-
 
 
 class ContentCards extends React.Component {
@@ -47,20 +48,19 @@ class ContentCards extends React.Component {
                 props.onAddAlert(newAlert);
             }
             socket.on('server event', (data) => {
-                console.log(data);
                 props.onAddAlert(data);
+            });
+            socket.on('update alert', (data) => {
+                console.log('update alert data:');
+                console.log(data);
+                props.onUpdateAlert(data);
             });
         });
 
     }
 
-    updateState() {
-        let {_state, onAddAlert, onUpdateService} = this.props;
-        console.log('yay updating state');
-    }
-
     render() {
-        let {_state, onAddAlert, onUpdateService} = this.props;
+        let {_state, onAddAlert, onUpdateService, onUpdateAlert} = this.props;
         return (
             <div>
                 <AppBar

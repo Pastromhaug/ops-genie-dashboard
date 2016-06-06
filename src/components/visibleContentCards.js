@@ -5,7 +5,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import ContentCards from './contentCards';
-import {updateService, addAlert} from '../actionTypes';
+import {updateService, addAlert, updateAlert} from '../actionTypes';
 
 
 const mapStateToProps = (state) => {
@@ -17,6 +17,9 @@ const mapDispatchToProps = (dispatch) => {
         onUpdateService: (service, downtime, availability) => dispatch(updateService(service, downtime, availability)),
         onAddAlert: (alert) => {
             dispatch(addAlert(alert))
+        },
+        onUpdateAlert: (alert) => {
+            dispatch(updateAlert(alert))
         }
     }
 };
