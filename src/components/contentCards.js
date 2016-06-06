@@ -38,11 +38,22 @@ class ContentCards extends React.Component {
 
     constructor(props) {
         super(props);
-        socket.on('server event', function (data) {
+        socket.emit('client event', {first: 'clientevent'});
+        socket.on('init alerts', (data) => {
+            console.log('init alerts data: ');
             console.log(data);
-            socket.emit('client event', { socket: 'io' });
-            props.onAddAlert(data);
+            for (var i = 0; i < data.alerts.length; i++) {
+                const newAlert = {alert: data.alerts[i], action: 'Create'};
+                console.log('newAlert:');
+                console.log(newAlert);
+                props.onAddAlert(newAlert);
+            }
+            socket.on('server event', (data) => {
+                console.log(data);
+                props.onAddAlert(data);
+            });
         });
+
     }
 
     updateState() {
@@ -100,7 +111,7 @@ class ContentCards extends React.Component {
                         <TableBody>
                             {_state.alerts.map(_alert =>
                                 <TableRow>
-                                    <TableRowColumn>{_alert.source.type}</TableRowColumn>
+                                    <TableRowColumn>{_alert.alert.status}</TableRowColumn>
                                     <TableRowColumn>{_alert.alert.username}</TableRowColumn>
                                     <TableRowColumn>{_alert.alert.message}</TableRowColumn>
                                 </TableRow>)

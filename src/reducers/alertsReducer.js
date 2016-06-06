@@ -25,10 +25,25 @@ const alerts = (state = [{ integrationType: 'Webhook',
 
     switch (action.type) {
         case 'ADD_ALERT':
-            return [
-               action.alert,
-                ...state
-            ];
+            const type = action.alert.action;
+            const id = action.alert.alert.alias;
+            if (type === 'Create') {
+                return [
+                    action.alert,
+                    ...state
+                ];
+            }
+            else if (type === 'Close') {
+                for (var i = 0; i < state.length; i++) {
+                    const curr = state[i];
+                    if (curr.alert.alias === id) {
+                        return state.slice(0,i).concat(state.slice(i+1,state.length));
+                    }
+                }
+            }
+            else {
+                return [...state];
+            }
         default:
             return state
     }
