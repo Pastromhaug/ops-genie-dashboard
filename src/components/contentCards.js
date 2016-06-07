@@ -5,12 +5,11 @@ import React from 'react';
 import AppBar from 'material-ui/AppBar';
 import {Card,CardHeader, CardTitle} from 'material-ui/Card';
 import {Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn} from 'material-ui/Table';
-import FlatButton from 'material-ui/FlatButton';
-import {List, ListItem} from 'material-ui/List';
-import $ from 'jquery';
 import {SERVICES_TRACKED} from '../constants/constants';
 import {cardHeaderStyles, appbarStyles, cardStyles} from '../styles/contentCardsStyles';
 import {timeDiff} from '../js/componentCardsUtil';
+import VisibleServicesTable from './visibleServicesTable';
+import VisibleAlertsTable from './visibleAlertsTable';
 var moment = require('moment');
 var Tick = require('tick-tock')
     , tock = new Tick();
@@ -58,63 +57,9 @@ class ContentCards extends React.Component {
                     showMenuIconButton={false}
                     style={appbarStyles.container}
                 />
-                <Card style={cardStyles.container}>
-                    <CardHeader
-                        title="Services"
-                        style={cardHeaderStyles.container}
-                    />
-                    <Table>
-                        <TableHeader displaySelectAll={false} adjustForCheckbox={false}>
-                            <TableRow>
-                                <TableHeaderColumn>Service</TableHeaderColumn>
-                                <TableHeaderColumn>Availability</TableHeaderColumn>
-                                <TableHeaderColumn>Downtime</TableHeaderColumn>
-                            </TableRow>
-                        </TableHeader>
-                        <TableBody displayRowCheckbox={false}>
-                            {_state.services.map(service =>
-                                <TableRow key={service.service}>
-                                    <TableRowColumn>{service.service}</TableRowColumn>
-                                    <TableRowColumn>{service.availability}</TableRowColumn>
-                                    <TableRowColumn>
-                                        {timeDiff(_state.times.current_time, service.last_time_available)}
-                                    </TableRowColumn>
-                                </TableRow>
-                            )}
-                        </TableBody>
-                    </Table>
-                </Card>
+                <VisibleServicesTable/>
 
-                <Card style={cardStyles.container}>
-                    <CardHeader
-                        title="Alerts"
-                        style={cardHeaderStyles.container}
-                    />
-                    <Table>
-                        <TableHeader displaySelectAll={false} adjustForCheckbox={false}>
-                            <TableRow>
-                                <TableHeaderColumn>Service</TableHeaderColumn>
-                                <TableHeaderColumn>Timestamp UTC</TableHeaderColumn>
-                                <TableHeaderColumn>Elapsed Time</TableHeaderColumn>
-                                <TableHeaderColumn>Message</TableHeaderColumn>
-                            </TableRow>
-                        </TableHeader>
-                        <TableBody displayRowCheckbox={false}>
-                            {_state.alerts.map(_alert =>
-                                <TableRow key={_alert.alert.id + _alert.alert.alias}>
-                                    <TableRowColumn>{_alert.alert.entity}</TableRowColumn>
-                                    <TableRowColumn>
-                                        {moment.utc(_alert.alert.createdAt / 1000000).format('ddd M/D HH:mm')}
-                                    </TableRowColumn>
-                                    <TableRowColumn>
-                                        {timeDiff(_state.times.current_time, _alert.alert.createdAt / 1000000)}
-                                    </TableRowColumn>
-                                    <TableRowColumn>{_alert.alert.message}</TableRowColumn>
-                                </TableRow>)
-                            }
-                        </TableBody>
-                    </Table>
-                </Card>
+                <VisibleAlertsTable/>
             </div>
         )
     }
