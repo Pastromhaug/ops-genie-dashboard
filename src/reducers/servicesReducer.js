@@ -2,7 +2,7 @@
  * Created by perandre on 6/1/16.
  */
 import {SERVICES_TRACKED} from '../constants/constants';
-import {UPDATE_SERVICE} from '../actions/actionTypes';
+import {UPDATE_SERVICE_DOWNTIME} from '../actions/actionTypes';
 
 var initial_state = SERVICES_TRACKED.map( (service) => {
     return {
@@ -14,22 +14,13 @@ var initial_state = SERVICES_TRACKED.map( (service) => {
 
 const services = (state = initial_state, action) => {
     switch (action.type) {
-        case UPDATE_SERVICE:
-            var found = false;
-            var newstate = [];
-            for (var i = 0; i < state.length; i++) {
-                if (state[i].service == action.service.service) {
-                    newstate = newstate.concat([action.service]);
-                    found = true;
+        case UPDATE_SERVICE_DOWNTIME:
+            return state.map( (curr) => {
+                if (curr.service === action.stuff.service) {
+                    return Object.assign({}, curr, action.stuff)
                 }
-                else {
-                    newstate = newstate.concat([state[i]]);
-                }
-            }
-            if (found == false) {
-                newstate = newstate.concat([action.service]);
-            }
-            return newstate;
+                else return curr;
+            } );
         default:
             return state;
     }

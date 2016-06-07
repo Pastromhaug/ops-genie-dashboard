@@ -71,18 +71,25 @@ app.post('/', function(req, res) {
         fetch( 'https://api.opsgenie.com/v1/json/alert?apiKey=d541ec04-c286-48df-95fa-79c59c9def5d&alias=' + currAlias)
             .then( function (resp) {return resp.json()})
             .then( function (resp) {
+                console.log('update');
+                console.log(resp);
                 var newAlert = {
                     alert: resp,
                     action: 'Create'
                 };
-                console.log('toupdate: ');
-                console.log(newAlert);
 
                 // send client an update on the alert it just received
                 io.sockets.emit('update alert', newAlert
                 );})
     }
 
+    if (resp.action == 'Close') {
+        resp.alert['id]'] = resp.alert.alertId;
+        io.sockets.emit('remove alert', resp);
+    }
+    else if (resp.action == 'Create') {
+        io.sockets.emit('add alert', resp);
+    }
 
 });
 

@@ -9,9 +9,11 @@ import {Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColu
 import FlatButton from 'material-ui/FlatButton';
 import {List, ListItem} from 'material-ui/List';
 import $ from 'jquery';
+import {SERVICES_TRACKED} from '../constants/constants';
 var moment = require('moment');
 var Tick = require('tick-tock')
     , tock = new Tick();
+
 
 var socket = io();
 
@@ -43,19 +45,75 @@ class ContentCards extends React.Component {
     constructor(props) {
         super(props);
         socket.emit('client ready', {first: 'client_ready'});
+
+        // add all the alerts that already exist when opening the page
         socket.on('init alerts', (data) => {
             for (var i = 0; i < data.alerts.length; i++) {
-                var newAlert = data.alerts[i];
-                newAlert['username'] = newAlert['source'];
-                const newAlert = {alert: newAlert, action: 'Create'};
+                const newAlert = {alert: data.alerts[i], action: 'Create'};
+                console.log('add 1:');
+                console.log(newAlert);
                 props.onAddAlert(newAlert);
             }
 
+            // creating or closing (adding or removing) an alert from the dashboard
             socket.on('new alert', (data) => {
-                props.onAddAlert(data);
+
+                // closing (removing) analert
+                if (data.action === 'Close') {
+                    console.log('remove:');
+                    console.log(data);
+                    props.onRemoveAlert(data);
+
+                    // loop through services and set their last available time to null if
+                    // they don't have any outstanding alerts. This will zero their downtime.
+                    const services = this.props._state.services;
+                    const alerts = this.props._state.alerts;
+
+                    for (var i = 0; i  < services.length; i++) {
+                        const service = services[i].service;
+                        const serviceAlerts = alerts.filter( (curr) => curr.alert.entity === service);
+                        if (serviceAlerts.length == 0) {
+                            props.onUpdateServiceDowntime(service, null)
+                        }
+                    }
+                }
+
+                // opening (adding) a new alert
+                else if (data.action === 'Create') {
+                    // when creating an alert we don't have the right field names yet to update services
+                    // downtime and availability. So we wait till the 'update alert' to change services.
+                    console.log('add 2:');
+                    console.log(data);
+                    props.onAddAlert(data);
+                }
+                else {
+                    console.log('ERROR,received alert neither Close nor Create');
+                    console.log(data);
+                }
+
             });
 
+            // updating an existing alert on the dashboard with additional essential information
             socket.on('update alert', (data) => {
+                console.log('update:');
+                console.log(data);
+                // Now we have the fields (Entity) we need to update the services, so we do that here instead
+                // of when the alert first arrives
+                var entity = data.alert.entity;
+                if ( typeof entity === 'undefined' || typeof entity === null || entity === "") {
+                    data.alert.entity = 'NO ENTITY ASSIGNED';
+                }
+                else if (SERVICES_TRACKED.indexOf(entity) == -1) {
+                    data.alert.entity += ' (UNKNOWN ENTITY)';
+                }
+                else {
+                    const newTime = data.alert.createdAt / 1000000;
+                    const services = this.props._state.services;
+                    const thisService = services.filter( (curr) => curr.service === entity )[0];
+                    if (thisService.last_time_available == null || thisService.last_time_available > newTime) {
+                        props.onUpdateServiceDowntime(entity, newTime);
+                    }
+                }
                 props.onUpdateAlert(data);
             });
 
@@ -74,7 +132,7 @@ class ContentCards extends React.Component {
     }
 
     render() {
-        let {_state, onAddAlert, onUpdateService, onUpdateAlert} = this.props;
+        let {_state, onAddAlert, onUpdateServiceDowntime, onUpdateAlert} = this.props;
         return (
             <div>
                 <AppBar
@@ -125,8 +183,8 @@ class ContentCards extends React.Component {
                         </TableHeader>
                         <TableBody displayRowCheckbox={false}>
                             {_state.alerts.map(_alert =>
-                                <TableRow key={_alert.alert.createdAt}>
-                                    <TableRowColumn>{_alert.alert.status}</TableRowColumn>
+                                <TableRow key={_alert.alert.id + _alert.alert.alias}>
+                                    <TableRowColumn>{_alert.alert.entity}</TableRowColumn>
                                     <TableRowColumn>
                                         {moment.utc(_alert.alert.createdAt / 1000000).format('ddd M/D HH:mm')}
                                     </TableRowColumn>

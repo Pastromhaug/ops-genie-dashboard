@@ -3,41 +3,37 @@
  */
 
 
-import {ADD_ALERT, UPDATE_ALERT} from '../actions/actionTypes'
+import {ADD_ALERT, REMOVE_ALERT, UPDATE_ALERT} from '../actions/actionTypes'
 
-const alerts = (state = []
-    , action) => {
+const alerts = (state = [] , action) => {
 
+
+    var alias;
     var id;
-    var i;
+
     switch (action.type) {
 
+
         case ADD_ALERT:
-            const type = action.alert.action;
-            id = action.alert.alert.alias;
-            if (type === 'Create') {
-                return [
-                    action.alert,
-                    ...state
-                ];
-            }
-            else if (type === 'Close') {
-                return state.filter( (curr) => curr.alert.alias !== id);
-            }
-            else {
-                return [...state];
-            }
-            break;
+            return [
+                action.alert,
+                ...state
+            ];
+
+        case REMOVE_ALERT:
+            alias = action.alert.alert.alias;
+            id = action.alert.alert.alertId;
+            return state.filter( (curr) => curr.alert.alias !== alias || curr.alert.id !== id);
+
 
         case UPDATE_ALERT:
-            const newAlert = action.alert;
-            id = newAlert.alert.alias;
+            alias = action.alert.alert.alias;
+            id = action.alert.alert.id;
             return state.map( (curr) => {
-                if (curr.alert.alias !== id) return curr;
-                else return newAlert;
+                if (curr.alert.alias !== alias || curr.alert.id !== id) return curr;
+                else return action.alert;
             });
-            break;
-        
+
         default:
             return state
     }
