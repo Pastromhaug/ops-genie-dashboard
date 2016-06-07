@@ -45,13 +45,12 @@ class ContentCards extends React.Component {
     constructor(props) {
         super(props);
         socket.emit('client ready', {first: 'client_ready'});
-
-
         socket.on('add alert', (data) => {
             props.onAddAlert(data);
         });
-
         socket.on('remove alert', (data) => {
+            console.log('remove alert data:');
+            console.log(data);
             props.onRemoveAlert(data);
 
             // loop through services and set their last available time to null if
@@ -70,11 +69,8 @@ class ContentCards extends React.Component {
 
         // set the current time in the state to be updated every second
         tock.setInterval('clock', () => props.onUpdateTime(moment.utc().valueOf()), '1 second');
-
         // bind helper functions to 'this'
         this.timeDiff = this.timeDiff.bind(this);
-
-
     }
 
     render() {

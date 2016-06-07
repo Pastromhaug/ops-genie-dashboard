@@ -22,8 +22,10 @@ const alerts = (state = [] , action) => {
 
         case REMOVE_ALERT:
             alias = action.alert.alert.alias;
-            id = action.alert.alert.alertId;
-            return state.filter( (curr) => curr.alert.alias !== alias || curr.alert.id !== id);
+            console.log('alias: ' + alias);
+            console.log('from: ');
+            console.log(state.filter( (curr) => curr.alert.alias));
+            return state.filter( (curr) => curr.alert.alias !== alias );
 
 
         case UPDATE_ALERT:
