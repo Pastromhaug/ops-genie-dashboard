@@ -11,6 +11,7 @@ const alerts = (state = []
     var id;
     var i;
     switch (action.type) {
+
         case ADD_ALERT:
             const type = action.alert.action;
             id = action.alert.alert.alias;
@@ -21,27 +22,22 @@ const alerts = (state = []
                 ];
             }
             else if (type === 'Close') {
-                for (i = 0; i < state.length; i++) {
-                    const curr = state[i];
-                    if (curr.alert.alias === id) {
-                        return state.slice(0,i).concat(state.slice(i+1,state.length));
-                    }
-                }
+                return state.filter( (curr) => curr.alert.alias !== id);
             }
             else {
                 return [...state];
             }
             break;
+
         case UPDATE_ALERT:
             const newAlert = action.alert;
             id = newAlert.alert.alias;
-            for (i = 0; i < state.length; i++) {
-                const curr = state[i];
-                if (curr.alert.alias === id) {
-                    return state.slice(0,i).concat([newAlert]).concat(state.slice(i+1,state.length));
-                }
-            }
+            return state.map( (curr) => {
+                if (curr.alert.alias !== id) return curr;
+                else return newAlert;
+            });
             break;
+        
         default:
             return state
     }

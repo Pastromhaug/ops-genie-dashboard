@@ -60,7 +60,6 @@ io.on('connection', function (socket) {
 // opsgenie webhook posts alerts here
 app.post('/', function(req, res) {
     const resp = req.body;
-    data = [resp].concat(data);
 
     // send alert to all clients
     io.sockets.emit('new alert', resp);
@@ -68,19 +67,22 @@ app.post('/', function(req, res) {
 
     // query the same alert using the web api. This is dumb but necessary, since the webhook doesn't send necessary
     // information about the alert
-    fetch( 'https://api.opsgenie.com/v1/json/alert?apiKey=d541ec04-c286-48df-95fa-79c59c9def5d&alias=' + currAlias)
-        .then( function (resp) {return resp.json()})
-        .then( function (resp) {
-            var newAlert = {
-                alert: resp,
-                action: 'Create'
-            };
-            console.log('toupdate: ');
-            console.log(newAlert);
+    if (resp.action === 'Create'){
+        fetch( 'https://api.opsgenie.com/v1/json/alert?apiKey=d541ec04-c286-48df-95fa-79c59c9def5d&alias=' + currAlias)
+            .then( function (resp) {return resp.json()})
+            .then( function (resp) {
+                var newAlert = {
+                    alert: resp,
+                    action: 'Create'
+                };
+                console.log('toupdate: ');
+                console.log(newAlert);
 
-            // send client an update on the alert it just received
-            io.sockets.emit('update alert', newAlert
-            );})
+                // send client an update on the alert it just received
+                io.sockets.emit('update alert', newAlert
+                );})
+    }
+
 
 });
 
