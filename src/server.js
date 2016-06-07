@@ -28,13 +28,10 @@ io.on('connection', function (socket) {
     socket.on('client ready', function () {
         serverUtil.initializeAlerts(socket);
     });
-    socket.on('query', function(data) {
-    })
 });
 
 
 
-// opsgenie webhook posts alerts here
 app.post('/', function(req) {
     console.log('req.body');
     console.log(req.body);
