@@ -18,18 +18,12 @@ function queryAlert(alias) {
 }
 
 function queryAndSendAlert(alias, message, action, socket) {
-    console.log('here I am');
-    fetch( 'https://api.opsgenie.com/v1/json/alert?apiKey=d541ec04-c286-48df-95fa-79c59c9def5d&alias=' + alias)
-        .then( function (respons) {return respons.json()})
+    queryAlert(alias)
         .then( function (alert_resp) {
-            console.log('alert_resp');
-            console.log(alert_resp);
             const final = {
                 alert: alert_resp,
                 action: action
             };
-            console.log('final');
-            console.log(final);
             socket.emit(message, final);
     });
 }
@@ -48,13 +42,10 @@ io.on('connection', function (socket) {
             .then( function (resp) {return resp.json()})
             .then( function (resp) {
                 resp = resp.alerts;
-                console.log('resp');
-                console.log(resp);
                 // iterate through the alerts received
                 console.log('resp.length: ' + resp.length);
                 for (var i = 0; i < resp.length; i++) {
                     var alias = resp[i].alias;
-                    console.log('alias: ' + alias);
                     queryAndSendAlert(alias, 'add alert', 'Create', socket);
                 }
             })
