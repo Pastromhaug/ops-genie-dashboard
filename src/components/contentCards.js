@@ -7,8 +7,8 @@ import VisibleServicesTable from './visibleServicesTable';
 import VisibleAlertsTable from './visibleAlertsTable';
 import {appbarStyles} from '../styles/contentCardsStyles'
 var moment = require('moment');
-var Tick = require('tick-tock')
-    , tock = new Tick();
+var Tick = require('tick-tock');
+var tock = new Tick();
 var socket = io();
 
 

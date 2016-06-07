@@ -5,7 +5,7 @@ var moment = require('moment');
 
 export function timeDiff(current_time, alert_time) {
     if (alert_time == null) {
-        return 'available'
+        return ''
     }
 
     const a = moment.utc(current_time);

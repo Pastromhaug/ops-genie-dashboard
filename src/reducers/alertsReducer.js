@@ -15,16 +15,17 @@ const alerts = (state = [] , action) => {
 
 
         case ADD_ALERT:
-            return [
-                action.alert,
-                ...state
-            ];
-
+            var aliases = state.map( (curr) => curr.alert.alias);
+            var new_alias = action.alert.alert.alias;
+            if (aliases.indexOf(new_alias) == -1) {
+                return [
+                    action.alert,
+                    ...state
+                ];
+            }
+            else return state;
         case REMOVE_ALERT:
             alias = action.alert.alert.alias;
-            console.log('alias: ' + alias);
-            console.log('from: ');
-            console.log(state.filter( (curr) => curr.alert.alias));
             return state.filter( (curr) => curr.alert.alias !== alias );
 
 
