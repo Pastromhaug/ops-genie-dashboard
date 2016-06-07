@@ -10,6 +10,8 @@ import FlatButton from 'material-ui/FlatButton';
 import {List, ListItem} from 'material-ui/List';
 import $ from 'jquery';
 var moment = require('moment');
+var Tick = require('tick-tock')
+    , tock = new Tick();
 
 var socket = io();
 
@@ -40,7 +42,7 @@ class ContentCards extends React.Component {
 
     constructor(props) {
         super(props);
-        socket.emit('client event', {first: 'clientevent'});
+        socket.emit('client ready', {first: 'client_ready'});
         socket.on('init alerts', (data) => {
             for (var i = 0; i < data.alerts.length; i++) {
                 var newAlert = data.alerts[i];
@@ -48,18 +50,24 @@ class ContentCards extends React.Component {
                 const newAlert = {alert: newAlert, action: 'Create'};
                 props.onAddAlert(newAlert);
             }
-            socket.on('server event', (data) => {
+
+            socket.on('new alert', (data) => {
                 props.onAddAlert(data);
             });
+
             socket.on('update alert', (data) => {
-                console.log('update alert data:');
-                console.log(data);
                 props.onUpdateAlert(data);
             });
+
+            // for each alert, fi
+            socket.emit('query')
+
         });
-        console.log(moment.utc().valueOf());
-        console.log(moment.utc(moment.utc().valueOf()).format('ddd M/D HH:mm'));
-        props.onUpdateTime(moment.utc().valueOf());
+
+        // set the current time in the state to be updated every second
+        tock.setInterval('clock', () => props.onUpdateTime(moment.utc().valueOf()), '1 second');
+
+        // bind helper functions to 'this'
         this.timeDiff = this.timeDiff.bind(this);
 
 
@@ -80,19 +88,21 @@ class ContentCards extends React.Component {
                         style={cardHeaderStyles.container}
                     />
                     <Table>
-                        <TableHeader>
+                        <TableHeader displaySelectAll={false} adjustForCheckbox={false}>
                             <TableRow>
                                 <TableHeaderColumn>Service</TableHeaderColumn>
                                 <TableHeaderColumn>Availability</TableHeaderColumn>
                                 <TableHeaderColumn>Downtime</TableHeaderColumn>
                             </TableRow>
                         </TableHeader>
-                        <TableBody>
+                        <TableBody displayRowCheckbox={false}>
                             {_state.services.map(service =>
                                 <TableRow key={service.service}>
                                     <TableRowColumn>{service.service}</TableRowColumn>
                                     <TableRowColumn>{service.availability}</TableRowColumn>
-                                    <TableRowColumn>{service.downtime}</TableRowColumn>
+                                    <TableRowColumn>
+                                        {this.timeDiff(_state.times.current_time, service.last_time_available)}
+                                    </TableRowColumn>
                                 </TableRow>
                             )}
                         </TableBody>
@@ -105,7 +115,7 @@ class ContentCards extends React.Component {
                         style={cardHeaderStyles.container}
                     />
                     <Table>
-                        <TableHeader>
+                        <TableHeader displaySelectAll={false} adjustForCheckbox={false}>
                             <TableRow>
                                 <TableHeaderColumn>Service</TableHeaderColumn>
                                 <TableHeaderColumn>Timestamp UTC</TableHeaderColumn>
@@ -113,15 +123,15 @@ class ContentCards extends React.Component {
                                 <TableHeaderColumn>Message</TableHeaderColumn>
                             </TableRow>
                         </TableHeader>
-                        <TableBody>
+                        <TableBody displayRowCheckbox={false}>
                             {_state.alerts.map(_alert =>
-                                <TableRow>
+                                <TableRow key={_alert.alert.createdAt}>
                                     <TableRowColumn>{_alert.alert.status}</TableRowColumn>
                                     <TableRowColumn>
                                         {moment.utc(_alert.alert.createdAt / 1000000).format('ddd M/D HH:mm')}
                                     </TableRowColumn>
                                     <TableRowColumn>
-                                        {this.timeDiff(_state.current_time, _alert.alert.createdAt / 1000000)}
+                                        {this.timeDiff(_state.times.current_time, _alert.alert.createdAt / 1000000)}
                                     </TableRowColumn>
                                     <TableRowColumn>{_alert.alert.message}</TableRowColumn>
                                 </TableRow>)
@@ -133,14 +143,24 @@ class ContentCards extends React.Component {
         )
     }
 
+
+
     timeDiff(current_time, alert_time) {
+        if (alert_time == null) {
+            return 'available'
+        }
+
         const a = moment.utc(current_time);
         const b = moment.utc(alert_time);
 
-        const days = a.diff(b, 'days');
-        const hours  = a.diff(b, 'hours') % 24;
-        const minutes =  a.diff(b, 'minutes') % 60;
-        const seconds =  a.diff(b, 'seconds') % 60;
+        var days = a.diff(b, 'days');
+        var hours  = a.diff(b, 'hours') % 24;
+        var minutes =  a.diff(b, 'minutes') % 60;
+        var seconds =  a.diff(b, 'seconds') % 60;
+
+        if (hours < 10) hours = '0' + hours;
+        if (minutes < 10) minutes = '0' + minutes;
+        if (seconds < 10) seconds = '0' + seconds;
 
         var time = '';
         time += hours + ':' + minutes + ':' + seconds;

@@ -1,12 +1,12 @@
 import { combineReducers } from 'redux';
 import alerts from './alertsReducer';
 import services from './servicesReducer';
-import current_time from './timeReducer';
+import times from './timeReducer';
 
 const mainReducer = combineReducers({
     alerts,
     services,
-    current_time
+    times
 });
 
 export default mainReducer

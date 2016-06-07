@@ -2,15 +2,23 @@
  * Created by perandre on 6/6/16.
  */
 
-import {UPDATE_TIME} from '../actionTypes';
+import {UPDATE_TIME} from '../actions/actionTypes';
+import {AVAILABILITY_HOURS} from '../constants/constants';
+var moment = require('moment');
 
-const current_time = (state = 0, action) => {
+
+const times = (state = 0, action) => {
     switch (action.type) {
         case UPDATE_TIME:
-            return action.time;
+            var availability_time = moment(action.time).subtract(AVAILABILITY_HOURS, 'hours');
+            availability_time = availability_time.valueOf();
+            return {
+                current_time: action.time,
+                availability_time: availability_time
+            };
         default:
             return state
     }
 };
 
-export default current_time;
+export default times;

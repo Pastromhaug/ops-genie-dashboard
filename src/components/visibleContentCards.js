@@ -5,7 +5,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import ContentCards from './contentCards';
-import {updateService, addAlert, updateAlert, updateTime} from '../actionTypes';
+import {updateService, addAlert, updateAlert, updateTime} from '../actions/actionTypes';
 
 
 const mapStateToProps = (state) => {

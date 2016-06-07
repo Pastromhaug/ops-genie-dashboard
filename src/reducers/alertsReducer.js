@@ -3,7 +3,7 @@
  */
 
 
-import {ADD_ALERT, UPDATE_ALERT} from '../actionTypes'
+import {ADD_ALERT, UPDATE_ALERT} from '../actions/actionTypes'
 
 const alerts = (state = []
     , action) => {
