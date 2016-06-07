@@ -17,6 +17,11 @@ function queryAlert(alias) {
         .then( function (respons) {return respons.json()});
 }
 
+function queryAlertList() {
+    return fetch('https://api.opsgenie.com/v1/json/alert?apiKey=d541ec04-c286-48df-95fa-79c59c9def5d&status=open&order=asc')
+        .then( function (resp) {return resp.json()});
+}
+
 function queryAndSendAlert(alias, message, action, socket) {
     queryAlert(alias)
         .then( function (alert_resp) {
@@ -28,58 +33,42 @@ function queryAndSendAlert(alias, message, action, socket) {
     });
 }
 
-function queryAlertList() {
-    return fetch('https://api.opsgenie.com/v1/json/alert?apiKey=d541ec04-c286-48df-95fa-79c59c9def5d&status=open&order=asc')
-        .then( function (resp) {return resp.json()});
+function initializeAlerts(socket) {
+    queryAlertList()
+        .then( function (alert_list) {
+            alert_list = alert_list.alerts;
+            // iterate through the alerts received
+            for (var i = 0; i < alert_list.length; i++) {
+                var alias = alert_list[i].alias;
+                queryAndSendAlert(alias, 'add alert', 'Create', socket);
+            }
+        })
 }
+
 
 io.on('connection', function (socket) {
 
-    // 'client event' is emited by client immediately after setup  to let the server now it's ready
     socket.on('client ready', function () {
-        // query for all open alerts using web api
-        fetch('https://api.opsgenie.com/v1/json/alert?apiKey=d541ec04-c286-48df-95fa-79c59c9def5d&status=open&order=asc')
-            .then( function (resp) {return resp.json()})
-            .then( function (resp) {
-                resp = resp.alerts;
-                // iterate through the alerts received
-                console.log('resp.length: ' + resp.length);
-                for (var i = 0; i < resp.length; i++) {
-                    var alias = resp[i].alias;
-                    queryAndSendAlert(alias, 'add alert', 'Create', socket);
-                }
-            })
+        initializeAlerts(socket);
     });
+
     socket.on('query', function(data) {
     })
 });
 
 
 // opsgenie webhook posts alerts here
-app.post('/', function(req, res) {
+app.post('/', function(req) {
 
-    const resp = req.body;
-    //console.log('resp');
-    //console.log(resp);
-    var currAlias = resp.alert.alias;
-    // query the same alert using the web api. This is dumb but necessary, since the webhook doesn't send necessary
-    // information about the alert
-    fetch( 'https://api.opsgenie.com/v1/json/alert?apiKey=d541ec04-c286-48df-95fa-79c59c9def5d&alias=' + currAlias)
-        .then( function (update_resp) {return update_resp.json()})
-        .then( function (update_resp) {
-            resp.alert = update_resp;
-            console.log('resp');
-            console.log(resp);
+    const alias = req.body.alert.alias;
+    const action = req.body.action;
 
-            if (resp.action == 'Create'){
-                io.sockets.emit('add alert', resp);
-            }
-            else if (resp.action == 'Close') {
-                io.sockets.emit('remove alert', resp);
-            }
-        })
-
-
+    if (action == 'Create') {
+        queryAndSendAlert(alias, 'add alert', 'Create', io.sockets);
+    }
+    else if (action == 'Close') {
+        queryAndSendAlert(alias, 'remove alert', 'Close', io.sockets);
+    }
 });
 
 app.get('/', function (req, res) {
