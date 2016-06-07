@@ -3,13 +3,9 @@
  */
 import React from 'react';
 import AppBar from 'material-ui/AppBar';
-import {Card,CardHeader, CardTitle} from 'material-ui/Card';
-import {Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn} from 'material-ui/Table';
-import {SERVICES_TRACKED} from '../constants/constants';
-import {cardHeaderStyles, appbarStyles, cardStyles} from '../styles/contentCardsStyles';
-import {timeDiff} from '../js/componentCardsUtil';
 import VisibleServicesTable from './visibleServicesTable';
 import VisibleAlertsTable from './visibleAlertsTable';
+import {appbarStyles} from '../styles/contentCardsStyles'
 var moment = require('moment');
 var Tick = require('tick-tock')
     , tock = new Tick();
@@ -49,7 +45,6 @@ class ContentCards extends React.Component {
     }
 
     render() {
-        let {_state, onAddAlert, onUpdateServiceDowntime, onUpdateAlert} = this.props;
         return (
             <div>
                 <AppBar
@@ -58,7 +53,6 @@ class ContentCards extends React.Component {
                     style={appbarStyles.container}
                 />
                 <VisibleServicesTable/>
-
                 <VisibleAlertsTable/>
             </div>
         )
