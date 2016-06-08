@@ -58,20 +58,18 @@ export function calcSummedAvailabilityIntervals(service, current_time) {
             return current_time - service.last_time_available
         }
     }
-
-    for (var i = 0; i < intervals.length -1; i++) {
-        sum += intervals[i].end - intervals[i].start;
-    }
-    var last_interval = intervals[intervals.length-1];
-    if (service.last_time_available == null) {
-        sum += last_interval.end - last_interval.start;
-    }
-    else if (service.last_time_available > intervals[intervals.length-1].end) {
+    var max_time;
+    if (service.last_time_available != null) {
         sum += current_time - service.last_time_available;
-        sum += last_interval.end - last_interval.start
+        max_time = service.last_time_available;
     }
     else {
-        sum += current_time - last_interval.start;
+        max_time = current_time;
+    }
+
+    for (var i = 0; i < intervals.length; i++) {
+        if (intervals[i].start >= max_time) break;
+        sum += intervals[i].end - intervals[i].start;
     }
     return sum;
 }
