@@ -5,7 +5,7 @@ import React from 'react';
 import {Card,CardHeader, CardTitle} from 'material-ui/Card';
 import {Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn} from 'material-ui/Table';
 import {cardHeaderStyles, cardStyles} from '../styles/contentCardsStyles';
-import {timeDiff, calcAvailabilityPercent} from '../js/timeUtil';
+import {timeDiff, calcAvailabilityPercent, calcSummedAvailabilityIntervals} from '../js/timeUtil';
 
 class ServicesTable extends React.Component {
     render() {
@@ -22,7 +22,8 @@ class ServicesTable extends React.Component {
                         <TableRow>
                             <TableHeaderColumn>Service</TableHeaderColumn>
                             <TableHeaderColumn>Availability</TableHeaderColumn>
-                            <TableHeaderColumn>Downtime</TableHeaderColumn>
+                            <TableHeaderColumn>Total Downtime</TableHeaderColumn>
+                            <TableHeaderColumn>Current Downtime</TableHeaderColumn>
                         </TableRow>
                     </TableHeader>
                     <TableBody displayRowCheckbox={false}>
@@ -31,6 +32,9 @@ class ServicesTable extends React.Component {
                                 <TableRowColumn>{service.service}</TableRowColumn>
                                 <TableRowColumn>
                                     {calcAvailabilityPercent(service, current_time)}
+                                </TableRowColumn>
+                                <TableRowColumn>
+                                    {timeDiff(calcSummedAvailabilityIntervals(service, current_time), 0)}
                                 </TableRowColumn>
                                 <TableRowColumn>
                                     {timeDiff(current_time, service.last_time_available)}
