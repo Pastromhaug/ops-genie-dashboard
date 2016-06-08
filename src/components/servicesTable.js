@@ -5,10 +5,12 @@ import React from 'react';
 import {Card,CardHeader, CardTitle} from 'material-ui/Card';
 import {Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn} from 'material-ui/Table';
 import {cardHeaderStyles, cardStyles} from '../styles/contentCardsStyles';
-import {timeDiff} from '../js/timeUtil';
+import {timeDiff, calcSummedAvailabilityIntervals} from '../js/timeUtil';
 
 class ServicesTable extends React.Component {
     render() {
+        var state = this.props._state;
+        var current_time = state.times.current_time
         return (
             <Card style={cardStyles.container}>
                 <CardHeader
@@ -24,12 +26,14 @@ class ServicesTable extends React.Component {
                         </TableRow>
                     </TableHeader>
                     <TableBody displayRowCheckbox={false}>
-                        {this.props._state.services.map(service =>
+                        {state.services.map(service =>
                             <TableRow key={service.service}>
                                 <TableRowColumn>{service.service}</TableRowColumn>
-                                <TableRowColumn>{service.availability}</TableRowColumn>
                                 <TableRowColumn>
-                                    {timeDiff(this.props._state.times.current_time, service.last_time_available)}
+                                    {timeDiff(calcSummedAvailabilityIntervals(service, current_time), 0)}
+                                </TableRowColumn>
+                                <TableRowColumn>
+                                    {timeDiff(current_time, service.last_time_available)}
                                 </TableRowColumn>
                             </TableRow>
                         )}

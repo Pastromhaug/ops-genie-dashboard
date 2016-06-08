@@ -27,6 +27,7 @@ class ContentCards extends React.Component {
         this.initServiceAvailabilities.bind(this);
         this.initServiceDowntime.bind(this);
         this.onTick.bind(this);
+        this.addAlertToAvailabilityArray.bind(this);
 
         // set the current time in the state to be updated every second
         props.onUpdateTime(calcCurrentTime());
@@ -59,15 +60,25 @@ class ContentCards extends React.Component {
     onTick() {
         this.props.onUpdateTime(calcCurrentTime());
         this.props.onUpdateAvailabilityIntervals(this.props._state.times.availability_time);
+
+        var services = this.props._state.services;
+        for (var i = 0; i < services.length; i++){
+            var entity = services[i].service;
+            var length = services[i].availabilityIntervals.length;
+            //console.log(entity + ' intervals: ' + length);
+            //console.log(services[i].availabilityIntervals);
+        }
+    }
+
+    addAlertToAvailabilityArray(alert) {
+
     }
 
     initServiceAvailabilities() {
         socket.on(cli.CLOSED_ALERT, (data) => {
-            console.log(cli.CLOSED_ALERT);
-            console.log(data);
+            this.props.onAddAlertToAvailability(data);
         });
         socket.on(cli.UPDATED_AFTER_ALERTS, (data) => {
-            console.log(data);
             data.map( (aler) => {
                 socket.emit(serv.CLOSED_ALERT, {id: aler.id, message: cli.CLOSED_ALERT})
             })

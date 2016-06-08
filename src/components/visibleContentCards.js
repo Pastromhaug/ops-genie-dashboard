@@ -6,7 +6,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import ContentCards from './contentCards';
 import {updateServiceDowntime, removeAlert, addAlert, updateAlert, updateTime,
-        updateAvailabilityIntervals, appendAvailabilityInterval} from '../actions/actionTypes';
+        updateAvailabilityIntervals, appendAvailabilityInterval, addAlertToAvailability} from '../actions/actionTypes';
 
 
 const mapStateToProps = (state) => {
@@ -43,6 +43,10 @@ const mapDispatchToProps = (dispatch) => {
 
         onUpdateAvailabilityIntervals: (time) => {
             dispatch(updateAvailabilityIntervals(time))
+        },
+
+        onAddAlertToAvailability: (alert) => {
+            dispatch(addAlertToAvailability(alert))
         }
     }
 };

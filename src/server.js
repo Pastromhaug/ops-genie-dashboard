@@ -46,7 +46,6 @@ io.on('connection', function (socket) {
     });
 
     socket.on( serv.UPDATED_AFTER_ALERTS, function (data) {
-        console.log(serv.UPDATED_AFTER_ALERTS);
         serverUtil.sendUpdatedAfterAlertList(data.message, data.updatedAfter, socket);
     })
 });

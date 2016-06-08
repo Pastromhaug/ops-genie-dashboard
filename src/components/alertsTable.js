@@ -5,11 +5,11 @@ import React from 'react';
 import {Card,CardHeader, CardTitle} from 'material-ui/Card';
 import {Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn} from 'material-ui/Table';
 import {cardHeaderStyles, cardStyles} from '../styles/contentCardsStyles';
-import {timeDiff} from '../js/timeUtil';
-var moment = require('moment');
+import {timeDiff, displayUnixTime} from '../js/timeUtil';
 
 class AlertsTable extends React.Component {
     render() {
+        var state = this.props._state;
         return (
             <Card style={cardStyles.container}>
                 <CardHeader
@@ -26,17 +26,20 @@ class AlertsTable extends React.Component {
                         </TableRow>
                     </TableHeader>
                     <TableBody displayRowCheckbox={false}>
-                        {this.props._state.alerts.map(_alert =>
-                            <TableRow key={_alert.alert.id + _alert.alert.alias}>
-                                <TableRowColumn>{_alert.alert.entity}</TableRowColumn>
+                        {state.alerts.map( (_alert) => {
+                            var alert = _alert.alert;
+                            return(
+                            <TableRow key={alert.id + alert.alias}>
+                                <TableRowColumn>{alert.entity}</TableRowColumn>
                                 <TableRowColumn>
-                                    {moment.utc(_alert.alert.createdAt / 1000000).format('ddd M/D HH:mm')}
+                                    {displayUnixTime(alert.createdAt / 1000000)}
                                 </TableRowColumn>
                                 <TableRowColumn>
-                                    {timeDiff(this.props._state.times.current_time, _alert.alert.createdAt / 1000000)}
+                                    {timeDiff(state.times.current_time, alert.createdAt / 1000000)}
                                 </TableRowColumn>
-                                <TableRowColumn>{_alert.alert.message}</TableRowColumn>
-                            </TableRow>)
+                                <TableRowColumn>{alert.message}</TableRowColumn>
+                            </TableRow>
+                            )})
                         }
                     </TableBody>
                 </Table>

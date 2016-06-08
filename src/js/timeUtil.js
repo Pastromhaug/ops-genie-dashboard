@@ -38,3 +38,45 @@ export function calcAvailabiliyTime() {
 export function calcCurrentTime() {
     return moment.utc().valueOf();
 }
+
+export function displayUnixTime(time) {
+    return moment.utc(time).format('ddd M/D HH:mm');
+}
+
+export function displayMoment(time) {
+    return time.format('ddd M/D HH:mm');
+}
+
+export function calcSummedAvailabilityIntervals(service, current_time) {
+    var intervals = service.availabilityIntervals;
+    var sum = 0;
+    if (intervals.length == 0) {
+        if (service.last_time_available == null) {
+            return 0;
+        }
+        else {
+            return current_time - service.last_time_available
+        }
+    }
+
+    for (var i = 0; i < intervals.length -1; i++) {
+        sum += intervals[i].end - intervals[i].start;
+    }
+    var last_interval = intervals[intervals.length-1];
+    if (service.last_time_available == null) {
+        sum += last_interval.end - last_interval.start;
+    }
+    else if (service.last_time_available > intervals[intervals.length-1].end) {
+        sum += current_time - service.last_time_available;
+        sum += last_interval.end - last_interval.start
+    }
+    else {
+        sum += current_time - last_interval.start;
+    }
+    return sum;
+}
+
+export function max(time1, time2) {
+    if (time1 > time2) return time1;
+    else return time2;
+}

@@ -35,6 +35,11 @@ export function appendAvailabilityInterval(service, start, end) {
     return {type: APPEND_AVAILABILITY_INTERVAL, data: {service: service, start: start, end: end}}
 }
 
+export const ADD_ALERT_TO_AVAILABILITY = 'ADD_ALERT_TO_AVAILABILITY';
+export function addAlertToAvailability(alert) {
+    return {type: ADD_ALERT_TO_AVAILABILITY, data: alert}
+}
+
 
 export const UPDATE_TIME = 'UPDATE_TIME';
 export function updateTime(time) {
