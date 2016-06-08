@@ -6,6 +6,11 @@ var bodyParser = require('body-parser');
 var fetch = require('node-fetch');
 var serverUtil = require('./js/serverUtil');
 var _ = require('lodash');
+var ioConstants = require('./constants/ioConstants');
+const serv = ioConstants.serv;
+const cli = ioConstants.cli;
+
+
 
 
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -28,15 +33,15 @@ io.on('connection', function (socket) {
 
     serverUtil.initializeAlerts(socket);
 
-    socket.on('get open alerts list', function () {
+    socket.on( serv.OPEN_ALERTS, function (data) {
         serverUtil.sendOpenAlertList(data.message, socket)
     });
 
-    socket.on('get specific alert', function (data) {
+    socket.on( serv.SPECIFIC_ALERT, function (data) {
         serverUtil.sendAlert(data.message, data.url_param, data.alias_id, data.action, socket);
     });
 
-    socket.on('get updated after alerts list', function (data) {
+    socket.on( serv.UPDATED_BEFORE_ALERTS, function (data) {
         serverUtil.sendUpdatedBeforeAlertList(data.message, data.updatedAt, data.sortBy, data.order, socket);
     })
 });
@@ -50,11 +55,11 @@ app.post('/', function(req) {
         var action = req.body.action;
         if (action == 'Create') {
             var alias = req.body.alert.alias;
-            serverUtil.sendAlert('add alert','alias', alias, 'Create', io.sockets);
+            serverUtil.sendAlert(cli.ADD_ALERT,'alias', alias, 'Create', io.sockets);
         }
         else if (action == 'Close') {
             var alertId = req.body.alert.alertId;
-            serverUtil.sendAlert('remove alert', 'id', alertId, 'Close', io.sockets);
+            serverUtil.sendAlert(cli.REMOVE_ALERT, 'id', alertId, 'Close', io.sockets);
         }
     }
 

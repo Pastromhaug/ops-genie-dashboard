@@ -6,6 +6,7 @@ import AppBar from 'material-ui/AppBar';
 import VisibleServicesTable from './visibleServicesTable';
 import VisibleAlertsTable from './visibleAlertsTable';
 import {appbarStyles} from '../styles/contentCardsStyles'
+import {serv, cli} from '../constants/ioConstants'
 var moment = require('moment');
 var Tick = require('tick-tock');
 var tock = new Tick();
@@ -21,15 +22,18 @@ class ContentCards extends React.Component {
         this.newDowntimeOnAdd.bind(this);
         this.addAlertHelper.bind(this);
         this.removeAlertHelper.bind(this);
+        this.initServiceAvailabilities.bind(this);
+        this.onTick.bind(this);
 
-        socket.on('add alert', (data) => {
+        socket.on( cli.ADD_ALERT, (data) => {
             this.addAlertHelper(data);
         });
-        socket.on('remove alert', (data) => {
+        socket.on( cli.REMOVE_ALERT, (data) => {
             this.removeAlertHelper(data);
         });
         // set the current time in the state to be updated every second
-        tock.setInterval('clock', () => props.onUpdateTime(moment.utc().valueOf()), '1 second');
+        tock.setInterval('clock', () => this.onTick(), '1 second');
+        this.initServiceAvailabilities();
     }
 
     render() {
@@ -44,6 +48,17 @@ class ContentCards extends React.Component {
                 <VisibleAlertsTable/>
             </div>
         )
+    }
+
+    onTick() {
+        this.props.onUpdateTime(moment.utc().valueOf());
+        this.props.onUpdateAvailabilityIntervals(this.props._state.times.availability_time);
+    }
+
+    initServiceAvailabilities() {
+        var request = {
+
+        }
     }
 
     removeAlertHelper(data) {

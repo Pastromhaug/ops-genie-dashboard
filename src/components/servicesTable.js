@@ -5,7 +5,7 @@ import React from 'react';
 import {Card,CardHeader, CardTitle} from 'material-ui/Card';
 import {Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn} from 'material-ui/Table';
 import {cardHeaderStyles, cardStyles} from '../styles/contentCardsStyles';
-import {timeDiff} from '../js/componentCardsUtil';
+import {timeDiff} from '../js/timeUtil';
 
 class ServicesTable extends React.Component {
     render() {

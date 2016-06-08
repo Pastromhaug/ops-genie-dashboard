@@ -2,6 +2,8 @@
  * Created by perandre on 6/7/16.
  */
 var fetch = require('node-fetch');
+var ioConstants = require('../constants/ioConstants');
+const cli = ioConstants.cli;
 
 
 function queryAlert(url_param, alias_id) {
@@ -52,7 +54,7 @@ function initializeAlerts(socket) {
             // iterate through the alerts received
             for (var i = 0; i < alert_list.length; i++) {
                 var alias = alert_list[i].alias;
-                sendAlert('add alert','alias',alias, 'Create', socket);
+                sendAlert(cli.ADD_ALERT,'alias',alias, 'Create', socket);
             }
         })
 }

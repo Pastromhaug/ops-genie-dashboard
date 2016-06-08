@@ -3,7 +3,7 @@
  */
 
 import {UPDATE_TIME} from '../actions/actionTypes';
-import {AVAILABILITY_HOURS} from '../constants/constants';
+import {AVAILABILITY_HOURS} from '../constants/appConstants';
 var moment = require('moment');
 
 
