@@ -5,7 +5,8 @@
 // server.js sockets wait on these strings with socket.on()
 const serv = {
     OPEN_ALERTS: 'OPEN_ALERTS',
-    SPECIFIC_ALERT: 'SPECIFIC_ALERT',
+    SPECIFIC_OPEN_ALERT: 'SPECIFIC_OPEN_ALERT',
+    SPECIFIC_CLOSED_ALERT: 'SPECIFIC_CLOSED_ALERT',
     UPDATED_BEFORE_ALERTS :'UPDATED_BEFORE_ALERTS'
 };
 

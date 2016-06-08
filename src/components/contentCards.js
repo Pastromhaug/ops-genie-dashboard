@@ -56,7 +56,7 @@ class ContentCards extends React.Component {
     }
 
     initServiceAvailabilities() {
-        var request = {
+        var data = {
 
         }
     }
@@ -70,6 +70,8 @@ class ContentCards extends React.Component {
     }
 
     addAlertHelper(data) {
+        console.log('add alert data:');
+        console.log(data);
         var aliases = this.props._state.alerts.map( (curr) => curr.alert.alias);
         var new_alias = data.alert.alias;
         if (aliases.indexOf(new_alias) == -1) {
