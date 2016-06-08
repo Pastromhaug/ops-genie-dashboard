@@ -19,24 +19,15 @@ class ContentCards extends React.Component {
         super(props);
         this.newDowntimeOnRemove.bind(this);
         this.newDowntimeOnAdd.bind(this);
-        socket.emit('client ready', {first: 'client_ready'});
+        this.addAlertHelper.bind(this);
+        this.removeAlertHelper.bind(this);
+
         socket.on('add alert', (data) => {
-            var aliases = props._state.alerts.map( (curr) => curr.alert.alias);
-            var new_alias = data.alert.alias;
-            if (aliases.indexOf(new_alias) == -1) {
-                props.onAddAlert(data);
-                var new_downtime = this.newDowntimeOnAdd(data.alert.entity, data.alert.createdAt/1000000);
-                props.onUpdateServiceDowntime(data.alert.entity, new_downtime);
-            }
+            this.addAlertHelper(data);
         });
         socket.on('remove alert', (data) => {
-            console.log('remove alert data:');
-            console.log(data);
-            props.onRemoveAlert(data);
-            var new_downtime = this.newDowntimeOnRemove(data.alert.entity);
-            props.onUpdateServiceDowntime(data.alert.entity, new_downtime);
+            this.removeAlertHelper(data);
         });
-
         // set the current time in the state to be updated every second
         tock.setInterval('clock', () => props.onUpdateTime(moment.utc().valueOf()), '1 second');
     }
@@ -53,6 +44,24 @@ class ContentCards extends React.Component {
                 <VisibleAlertsTable/>
             </div>
         )
+    }
+
+    removeAlertHelper(data) {
+        console.log('remove alert data:');
+        console.log(data);
+        this.props.onRemoveAlert(data);
+        var new_downtime = this.newDowntimeOnRemove(data.alert.entity);
+        this.props.onUpdateServiceDowntime(data.alert.entity, new_downtime);
+    }
+
+    addAlertHelper(data) {
+        var aliases = this.props._state.alerts.map( (curr) => curr.alert.alias);
+        var new_alias = data.alert.alias;
+        if (aliases.indexOf(new_alias) == -1) {
+            this.props.onAddAlert(data);
+            var new_downtime = this.newDowntimeOnAdd(data.alert.entity, data.alert.createdAt/1000000);
+            this.props.onUpdateServiceDowntime(data.alert.entity, new_downtime);
+        }
     }
 
     newDowntimeOnRemove(entity) {

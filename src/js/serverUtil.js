@@ -52,7 +52,7 @@ function initializeAlerts(socket) {
             // iterate through the alerts received
             for (var i = 0; i < alert_list.length; i++) {
                 var alias = alert_list[i].alias;
-                sendAlert('alias',alias, 'add alert', 'Create', socket);
+                sendAlert('add alert','alias',alias, 'Create', socket);
             }
         })
 }

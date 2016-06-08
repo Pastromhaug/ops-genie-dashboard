@@ -25,9 +25,8 @@ server.listen(8000, function () {
 
 
 io.on('connection', function (socket) {
-    socket.on('client ready', function () {
-        serverUtil.initializeAlerts(socket);
-    });
+
+    serverUtil.initializeAlerts(socket);
 
     socket.on('get open alerts list', function () {
         serverUtil.sendOpenAlertList(data.message, socket)
@@ -38,7 +37,7 @@ io.on('connection', function (socket) {
     });
 
     socket.on('get updated after alerts list', function (data) {
-        serverUtil.sendUpdatedAfterAlertList(data.message, data.updatedAt, data.sortBy, data.order, socket);
+        serverUtil.sendUpdatedBeforeAlertList(data.message, data.updatedAt, data.sortBy, data.order, socket);
     })
 });
 
@@ -51,11 +50,11 @@ app.post('/', function(req) {
         var action = req.body.action;
         if (action == 'Create') {
             var alias = req.body.alert.alias;
-            serverUtil.sendAlert('alias', alias, 'add alert', 'Create', io.sockets);
+            serverUtil.sendAlert('add alert','alias', alias, 'Create', io.sockets);
         }
         else if (action == 'Close') {
             var alertId = req.body.alert.alertId;
-            serverUtil.sendAlert('id', alertId, 'remove alert', 'Close', io.sockets);
+            serverUtil.sendAlert('remove alert', 'id', alertId, 'Close', io.sockets);
         }
     }
 
