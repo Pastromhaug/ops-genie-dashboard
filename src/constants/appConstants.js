@@ -9,4 +9,4 @@ export const SERVICES_TRACKED = [
     "Video"
 ];
 
-export const AVAILABILITY_HOURS = 72;
+export const AVAILABILITY_DAYS = 30;

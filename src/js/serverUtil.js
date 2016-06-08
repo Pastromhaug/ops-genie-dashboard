@@ -50,16 +50,20 @@ function sendOpenAlertList(message, socket) {
     })
 }
 
-function queryUpdatedBeforeAlertList(updatedBefore, sortBy, order) {
-    return fetch('https://api.opsgenie.com/v1/json/alert?apiKey=d541ec04-c286-48df-95fa-79c59c9def5d&updatedBefore='
-        + updatedBefore + '&sortBy=' + sortBy + '&order=' + order + '&limit=20' )
+function queryUpdatedAfterAlertList(updatedAfter) {
+    return fetch('https://api.opsgenie.com/v1/json/alert?apiKey=d541ec04-c286-48df-95fa-79c59c9def5d'+
+        '&sortBy=updatedAt&order=asc&limit=100&status=closed&updatedAfter=' + updatedAfter)
         .then( function (resp) {return resp.json()});
 }
 
-function sendUpdatedBeforeAlertList(message, updatedBefore, sortBy, order, socket) {
-    queryUpdatedBeforeAlertList(updatedBefore, sortBy, order).then(function (list_resp) {
+function sendUpdatedAfterAlertList(message, updatedAfter, socket) {
+    queryUpdatedAfterAlertList(updatedAfter).then(function (list_resp) {
         var final = list_resp.alerts;
-        socket.emit(message, final);
+        if (final.length > 1) {
+            var next_updated_after = final[final.length - 1].updatedAt;
+            socket.emit(message, final);
+            sendUpdatedAfterAlertList(message, next_updated_after, socket)
+        }
     })
 }
 
@@ -83,6 +87,6 @@ module.exports = {
     queryOpenAlertList: queryOpenAlertList,
     sendOpenAlertList: sendOpenAlertList,
     initializeAlerts: initializeAlerts,
-    queryUpdatedBeforeAlertList: queryUpdatedBeforeAlertList,
-    sendUpdatedBeforeAlertList: sendUpdatedBeforeAlertList
+    queryUpdatedAfterAlertList: queryUpdatedAfterAlertList,
+    sendUpdatedAfterAlertList: sendUpdatedAfterAlertList
 };

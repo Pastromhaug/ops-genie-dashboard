@@ -37,16 +37,17 @@ io.on('connection', function (socket) {
         serverUtil.sendOpenAlertList(data.message, socket)
     });
 
-    socket.on( serv.SPECIFIC_OPEN_ALERT, function (data) {
+    socket.on( serv.OPEN_ALERT, function (data) {
         serverUtil.sendOpenAlert(data.message, data.alias, socket);
     });
 
-    socket.on( serv.SPECIFIC_CLOSED_ALERT, function (data) {
+    socket.on( serv.CLOSED_ALERT, function (data) {
         serverUtil.sendClosedAlert(data.message, data.id, socket);
     });
 
-    socket.on( serv.UPDATED_BEFORE_ALERTS, function (data) {
-        serverUtil.sendUpdatedBeforeAlertList(data.message, data.updatedAt, data.sortBy, data.order, socket);
+    socket.on( serv.UPDATED_AFTER_ALERTS, function (data) {
+        console.log(serv.UPDATED_AFTER_ALERTS);
+        serverUtil.sendUpdatedAfterAlertList(data.message, data.updatedAfter, socket);
     })
 });
 
