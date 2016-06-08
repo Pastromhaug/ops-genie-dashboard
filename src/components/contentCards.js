@@ -8,7 +8,7 @@ import VisibleAlertsTable from './visibleAlertsTable';
 import {appbarStyles} from '../styles/contentCardsStyles'
 import {serv, cli} from '../constants/ioConstants';
 import {SERVICES_TRACKED, AVAILABILITY_DAYS} from '../constants/appConstants';
-import {calcAvailabiliyTime, calcCurrentTime} from '../js/timeUtil';
+import {calcAvailabiliyTime, calcCurrentTime, min} from '../js/timeUtil';
 var moment = require('moment');
 var Tick = require('tick-tock');
 var tock = new Tick();
@@ -38,6 +38,7 @@ class ContentCards extends React.Component {
         });
         socket.on( cli.REMOVE_ALERT, (data) => {
             this.removeAlertHelper(data);
+            props.onAddAlertToAvailability(data);
         });
 
         this.initServiceAvailabilities();
@@ -63,10 +64,18 @@ class ContentCards extends React.Component {
 
         var services = this.props._state.services;
         for (var i = 0; i < services.length; i++){
-            var entity = services[i].service;
-            var length = services[i].availabilityIntervals.length;
-            //console.log(entity + ' intervals: ' + length);
-            //console.log(services[i].availabilityIntervals);
+            var service = services[i].service;
+            var last_time = moment.utc(services[i].last_time_available);
+            var intervals = services[i].availabilityIntervals;
+
+            for (var j = 0; j < intervals.length; j++){
+                var interval = intervals[j];
+                if (interval.start.isBefore(last_time) && interval.end.isAfter(last_time)){
+                    this.props.onUpdateServiceDowntime(service, interval.start.valueOf());
+                    break;
+                }
+            }
+
         }
     }
 
