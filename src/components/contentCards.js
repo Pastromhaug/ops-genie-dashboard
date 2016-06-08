@@ -35,19 +35,6 @@ class ContentCards extends React.Component {
             props.onRemoveAlert(data);
             var new_downtime = this.newDowntimeOnRemove(data.alert.entity);
             props.onUpdateServiceDowntime(data.alert.entity, new_downtime);
-
-            // loop through services and set their last available time to null if
-            // they don't have any outstanding alerts. This will zero their downtime.
-        //    const services = this.props._state.services;
-        //    const alerts = this.props._state.alerts;
-        //
-        //    for (var i = 0; i  < services.length; i++) {
-        //        const service = services[i].service;
-        //        const serviceAlerts = alerts.filter( (curr) => curr.alert.entity === service);
-        //        if (serviceAlerts.length == 0) {
-        //            props.onUpdateServiceDowntime(service, null)
-        //        }
-        //    }
         });
 
         // set the current time in the state to be updated every second

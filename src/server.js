@@ -28,6 +28,18 @@ io.on('connection', function (socket) {
     socket.on('client ready', function () {
         serverUtil.initializeAlerts(socket);
     });
+
+    socket.on('get open alerts list', function () {
+        serverUtil.sendOpenAlertList(data.message, socket)
+    });
+
+    socket.on('get specific alert', function (data) {
+        serverUtil.sendAlert(data.message, data.url_param, data.alias_id, data.action, socket);
+    });
+
+    socket.on('get updated after alerts list', function (data) {
+        serverUtil.sendUpdatedAfterAlertList(data.message, data.updatedAt, data.sortBy, data.order, socket);
+    })
 });
 
 
@@ -39,11 +51,11 @@ app.post('/', function(req) {
         var action = req.body.action;
         if (action == 'Create') {
             var alias = req.body.alert.alias;
-            serverUtil.queryAndSendAlert('alias', alias, 'add alert', 'Create', io.sockets);
+            serverUtil.sendAlert('alias', alias, 'add alert', 'Create', io.sockets);
         }
         else if (action == 'Close') {
             var alertId = req.body.alert.alertId;
-            serverUtil.queryAndSendAlert('id', alertId, 'remove alert', 'Close', io.sockets);
+            serverUtil.sendAlert('id', alertId, 'remove alert', 'Close', io.sockets);
         }
     }
 
