@@ -121,14 +121,21 @@ class ContentCards extends React.Component {
         var new_alias = data.alert.alias;
         var entity = data.alert.entity;
         this.props.onAddAlert(data);
-        if (aliases.indexOf(new_alias) == -1 && SERVICES_TRACKED.indexOf(entity) != -1) {
-            var new_downtime = this.newDowntimeOnAdd(data.alert.entity, data.alert.createdAt/1000000);
-            this.props.onUpdateServiceDowntime(data.alert.entity, new_downtime);
+
+        var severity = data.alert.details.severity;
+        if (severity !== 'risk' && severity !== 'Risk') {
+            if (aliases.indexOf(new_alias) == -1 && SERVICES_TRACKED.indexOf(entity) != -1) {
+                var new_downtime = this.newDowntimeOnAdd(data.alert.entity, data.alert.createdAt / 1000000);
+                this.props.onUpdateServiceDowntime(data.alert.entity, new_downtime);
+            }
         }
     }
 
     newDowntimeOnRemove(entity) {
-        var this_entity = this.props._state.alerts.filter( (curr) => curr.alert.entity == entity);
+        var this_entity = this.props._state.alerts.filter( (curr) => {
+            var severity = curr.alert.details.severity;
+            return (curr.alert.entity == entity && severity !== 'risk' && severity !== 'Risk');
+        });
         if (this_entity.length == 0) {
             return null;
         }
