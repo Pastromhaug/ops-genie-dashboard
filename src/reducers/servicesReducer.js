@@ -40,11 +40,11 @@ const services = (state = initial_state, action) => {
         case UPDATE_AVAILABILITY_INERVALS:
             return state.map( (curr) => {
                 curr.availabilityIntervals = curr.availabilityIntervals.map( (interval) => {
-                    interval.start = max(interval.start, action.time);
+                    interval.start = max(interval.start, moment.utc(action.time));
                     return interval;
                 });
                 curr.availabilityIntervals = curr.availabilityIntervals.filter( (interval) => {
-                    return interval.start < interval.end;
+                    return interval.start.isBefore(interval.end);
                 });
                 return curr;
             });
