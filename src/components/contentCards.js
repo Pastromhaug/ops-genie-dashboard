@@ -25,7 +25,6 @@ class ContentCards extends React.Component {
         this.addAlertHelper.bind(this);
         this.removeAlertHelper.bind(this);
         this.initServiceAvailabilities.bind(this);
-        this.initServiceDowntime.bind(this);
         this.onTick.bind(this);
         this.updateDowntime.bind(this);
 
@@ -100,9 +99,6 @@ class ContentCards extends React.Component {
         );
     }
 
-
-    initServiceDowntime() {
-    }
 
     removeAlertHelper(data) {
         console.log('remove alert data:');
