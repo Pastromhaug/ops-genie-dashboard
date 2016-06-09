@@ -88,15 +88,10 @@ class ContentCards extends React.Component {
                 this.props.onAddAlertToAvailability(data);
             }
         });
-        socket.on(cli.UPDATED_AFTER_ALERTS, (data) => {
-            data.map( (aler) => {
-                socket.emit(serv.CLOSED_ALERT, {id: aler.id, message: cli.CLOSED_ALERT})
-            })
-        });
         var availability_time = calcAvailabiliyTime();
         socket.emit(serv.UPDATED_AFTER_ALERTS,
             {
-                message: cli.UPDATED_AFTER_ALERTS,
+                message: cli.CLOSED_ALERT,
                 updatedAfter: availability_time*1000000
             }
         );

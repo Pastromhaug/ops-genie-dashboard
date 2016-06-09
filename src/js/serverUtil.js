@@ -22,28 +22,34 @@ function queryClosedAlert(id) {
 function sendOpenAlert(message, alias, socket) {
     queryOpenAlert(alias)
         .then( function (alert_resp) {
-            if (SERVICES_TRACKED.indexOf(alert_resp.entity) == -1){
-                alert_resp.entity = 'Unknown';
+            var recipients = alert_resp.recipients;
+            if (recipients.indexOf('oncall') != -1){
+                if (SERVICES_TRACKED.indexOf(alert_resp.entity) == -1){
+                    alert_resp.entity = 'Unknown';
+                }
+                const final = {
+                    alert: alert_resp,
+                    action: 'Create'
+                };
+                socket.emit(message, final);
             }
-            const final = {
-                alert: alert_resp,
-                action: 'Create'
-            };
-            socket.emit(message, final);
         });
 }
 
 function sendClosedAlert(message, id, socket) {
     queryClosedAlert(id)
         .then( function (alert_resp) {
-            if (SERVICES_TRACKED.indexOf(alert_resp.entity) == -1){
-                alert_resp.entity = 'Unknown';
+            var recipients = alert_resp.recipients;
+            if (recipients.indexOf('oncall') != -1) {
+                if (SERVICES_TRACKED.indexOf(alert_resp.entity) == -1) {
+                    alert_resp.entity = 'Unknown';
+                }
+                const final = {
+                    alert: alert_resp,
+                    action: 'Closed'
+                };
+                socket.emit(message, final);
             }
-            const final = {
-                alert: alert_resp,
-                action: 'Closed'
-            };
-            socket.emit(message, final);
         });
 }
 
@@ -69,8 +75,11 @@ function sendUpdatedAfterAlertList(message, updatedAfter, socket) {
     queryUpdatedAfterAlertList(updatedAfter).then(function (list_resp) {
         var final = list_resp.alerts;
         if (final.length > 1) {
+            console.log(final);
             var next_updated_after = final[final.length - 1].updatedAt;
-            socket.emit(message, final);
+            final.map( (aler) => {
+                sendClosedAlert(message, aler.id, socket);
+            });
             sendUpdatedAfterAlertList(message, next_updated_after, socket)
         }
     })
