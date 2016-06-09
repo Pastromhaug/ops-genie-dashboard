@@ -78,18 +78,15 @@ export function calcAvailabilityPercent(service, current_time) {
     var sum_unavailability = calcSummedAvailabilityIntervals(service, current_time);
     var total_time = current_time - calcAvailabiliyTime();
     var percent = (total_time - sum_unavailability.valueOf())/total_time * 100;
-    //console.log('sum_unavailability: ' + sum_unavailability);
-    //console.log('total_time: ' + total_time);
-    //console.log('percent: ' + percent);
     return (percent + '').slice(0,6) + '%';
 }
 
 export function max(time1, time2) {
-    if (time1 > time2) return time1;
+    if (time1.isAfter(time2)) return time1;
     else return time2;
 }
 
 export function min(time1, time2) {
-    if (time1 < time2) return time1;
+    if (time1.isBefore(time2)) return time1;
     else return time2;
 }
