@@ -30,13 +30,11 @@ export function timeDiff(current_time, alert_time) {
 }
 
 export function calcAvailabiliyTime() {
-    var availability_time = moment(moment.utc().valueOf()).subtract(AVAILABILITY_DAYS, 'days');
-    availability_time = availability_time.valueOf();
-    return availability_time;
+    return moment.utc().subtract(AVAILABILITY_DAYS, 'days');
 }
 
 export function calcCurrentTime() {
-    return moment.utc().valueOf();
+    return moment.utc()
 }
 
 export function displayUnixTime(time) {
