@@ -75,7 +75,6 @@ function sendUpdatedAfterAlertList(message, updatedAfter, socket) {
     queryUpdatedAfterAlertList(updatedAfter).then(function (list_resp) {
         var final = list_resp.alerts;
         if (final.length > 1) {
-            console.log(final);
             var next_updated_after = final[final.length - 1].updatedAt;
             final.map( (aler) => {
                 sendClosedAlert(message, aler.id, socket);
