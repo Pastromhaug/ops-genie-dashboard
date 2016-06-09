@@ -4,6 +4,9 @@
 var fetch = require('node-fetch');
 var ioConstants = require('../constants/ioConstants');
 const cli = ioConstants.cli;
+const appConstants = require('../constants/appConstants');
+const SERVICES_TRACKED = appConstants.SERVICES_TRACKED;
+
 
 
 function queryOpenAlert(alias) {
@@ -19,6 +22,9 @@ function queryClosedAlert(id) {
 function sendOpenAlert(message, alias, socket) {
     queryOpenAlert(alias)
         .then( function (alert_resp) {
+            if (SERVICES_TRACKED.indexOf(alert_resp.entity) == -1){
+                alert_resp.entity = 'Unknown';
+            }
             const final = {
                 alert: alert_resp,
                 action: 'Create'
@@ -30,6 +36,9 @@ function sendOpenAlert(message, alias, socket) {
 function sendClosedAlert(message, id, socket) {
     queryClosedAlert(id)
         .then( function (alert_resp) {
+            if (SERVICES_TRACKED.indexOf(alert_resp.entity) == -1){
+                alert_resp.entity = 'Unknown';
+            }
             const final = {
                 alert: alert_resp,
                 action: 'Closed'
