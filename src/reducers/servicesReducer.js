@@ -6,7 +6,7 @@ import {UPDATE_SERVICE_DOWNTIME,
     APPEND_AVAILABILITY_INTERVAL,
     UPDATE_AVAILABILITY_INERVALS,
     ADD_ALERT_TO_AVAILABILITY} from '../actions/actionTypes';
-import {max, timeDiff, displayMoment} from '../js/timeUtil';
+import {maxTime, timeDiff, displayMoment} from '../js/timeUtil';
 var moment = require('moment');
 
 var initial_state = SERVICES_TRACKED.map( (service) => {
@@ -40,7 +40,7 @@ const services = (state = initial_state, action) => {
         case UPDATE_AVAILABILITY_INERVALS:
             return state.map( (curr) => {
                 curr.availabilityIntervals = curr.availabilityIntervals.map( (interval) => {
-                    interval.start = max(interval.start, moment.utc(action.time));
+                    interval.start = maxTime(interval.start, moment.utc(action.time));
                     return interval;
                 });
                 curr.availabilityIntervals = curr.availabilityIntervals.filter( (interval) => {

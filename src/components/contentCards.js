@@ -8,7 +8,7 @@ import VisibleAlertsTable from './visibleAlertsTable';
 import {appbarStyles} from '../styles/contentCardsStyles'
 import {serv, cli} from '../constants/ioConstants';
 import {SERVICES_TRACKED, AVAILABILITY_DAYS} from '../constants/appConstants';
-import {calcAvailabiliyTime, calcCurrentTime, min} from '../js/timeUtil';
+import {calcAvailabiliyTime, calcCurrentTime, minTime} from '../js/timeUtil';
 var moment = require('moment');
 var Tick = require('tick-tock');
 var tock = new Tick();

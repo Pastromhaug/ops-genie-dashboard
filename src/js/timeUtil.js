@@ -81,12 +81,12 @@ export function calcAvailabilityPercent(service, current_time) {
     return (percent + '').slice(0,6) + '%';
 }
 
-export function max(time1, time2) {
+export function maxTime(time1, time2) {
     if (time1.isAfter(time2)) return time1;
     else return time2;
 }
 
-export function min(time1, time2) {
+export function minTime(time1, time2) {
     if (time1.isBefore(time2)) return time1;
     else return time2;
 }
