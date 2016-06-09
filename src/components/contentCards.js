@@ -58,7 +58,7 @@ class ContentCards extends React.Component {
     }
 
     onTick() {
-        this.props.onUpdateTime(calcCurrentTime());
+        this.props.onUpdateTime();
         this.props.onUpdateAvailabilityIntervals(this.props._state.times.availability_time);
         this.updateDowntime();
 

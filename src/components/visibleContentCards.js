@@ -33,8 +33,8 @@ const mapDispatchToProps = (dispatch) => {
             dispatch(updateAlert(alert))
         },
 
-        onUpdateTime: (time) => {
-            dispatch(updateTime(time))
+        onUpdateTime: () => {
+            dispatch(updateTime())
         },
 
         onAppendAvailabilityInterval: (service, start, end) => {
