@@ -83,7 +83,10 @@ class ContentCards extends React.Component {
 
     initServiceAvailabilities() {
         socket.on(cli.CLOSED_ALERT, (data) => {
-            this.props.onAddAlertToAvailability(data);
+            var severity = data.alert.details.severity;
+            if (severity !== 'risk' && severity !== 'Risk'){
+                this.props.onAddAlertToAvailability(data);
+            }
         });
         socket.on(cli.UPDATED_AFTER_ALERTS, (data) => {
             data.map( (aler) => {

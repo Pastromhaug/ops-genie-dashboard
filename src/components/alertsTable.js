@@ -28,8 +28,12 @@ class AlertsTable extends React.Component {
                     <TableBody displayRowCheckbox={false}>
                         {state.alerts.map( (_alert) => {
                             var alert = _alert.alert;
+                            var color;
+                            var severity = alert.details.severity;
+                            if (severity === 'risk' || severity === 'Risk') color = 'rgb(255, 255, 230)';
+                            else color = 'rgb(255, 230, 230)';
                             return(
-                            <TableRow key={alert.id + alert.alias} style={{backgroundColor: 'rgb(235,241,235)'}}>
+                            <TableRow key={alert.id + alert.alias} style={{backgroundColor: color}}>
                                 <TableRowColumn>{alert.entity}</TableRowColumn>
                                 <TableRowColumn>
                                     {displayUnixTime(alert.createdAt / 1000000)}
