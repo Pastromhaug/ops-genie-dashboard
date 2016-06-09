@@ -27,7 +27,7 @@ class ContentCards extends React.Component {
         this.initServiceAvailabilities.bind(this);
         this.initServiceDowntime.bind(this);
         this.onTick.bind(this);
-        this.addAlertToAvailabilityArray.bind(this);
+        this.updateDowntime.bind(this);
 
         // set the current time in the state to be updated every second
         props.onUpdateTime(calcCurrentTime());
@@ -61,7 +61,11 @@ class ContentCards extends React.Component {
     onTick() {
         this.props.onUpdateTime(calcCurrentTime());
         this.props.onUpdateAvailabilityIntervals(this.props._state.times.availability_time);
+        this.updateDowntime();
 
+    }
+
+    updateDowntime() {
         var services = this.props._state.services;
         for (var i = 0; i < services.length; i++){
             var service = services[i].service;
@@ -75,12 +79,7 @@ class ContentCards extends React.Component {
                     break;
                 }
             }
-
         }
-    }
-
-    addAlertToAvailabilityArray(alert) {
-
     }
 
     initServiceAvailabilities() {
