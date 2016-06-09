@@ -27,10 +27,14 @@ class ServicesTable extends React.Component {
                         </TableRow>
                     </TableHeader>
                     <TableBody displayRowCheckbox={false}>
-                        {state.services.map(service =>
-                            <TableRow key={service.service}>
+                        {state.services.map( (service) => {
+                            var color;
+                            if (service.last_time_available == null) color = 'rgb(235,241,235)';
+                            else color = 'rgb(255, 230, 230)';
+                            return (
+                            <TableRow key={service.service} style={{backgroundColor: color}}>
                                 <TableRowColumn>{service.service}</TableRowColumn>
-                                <TableRowColumn style={{backgroundColor: 'red'}}>
+                                <TableRowColumn >
                                     {calcAvailabilityPercent(service, current_time)}
                                 </TableRowColumn>
                                 <TableRowColumn>
@@ -40,7 +44,7 @@ class ServicesTable extends React.Component {
                                     {timeDiff(current_time, service.last_time_available)}
                                 </TableRowColumn>
                             </TableRow>
-                        )}
+                        )})}
                     </TableBody>
                 </Table>
             </Card>

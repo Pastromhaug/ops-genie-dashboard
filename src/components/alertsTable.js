@@ -29,7 +29,7 @@ class AlertsTable extends React.Component {
                         {state.alerts.map( (_alert) => {
                             var alert = _alert.alert;
                             return(
-                            <TableRow key={alert.id + alert.alias}>
+                            <TableRow key={alert.id + alert.alias} style={{backgroundColor: 'rgb(235,241,235)'}}>
                                 <TableRowColumn>{alert.entity}</TableRowColumn>
                                 <TableRowColumn>
                                     {displayUnixTime(alert.createdAt / 1000000)}
