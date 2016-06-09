@@ -30,7 +30,7 @@ class ServicesTable extends React.Component {
                         {state.services.map(service =>
                             <TableRow key={service.service}>
                                 <TableRowColumn>{service.service}</TableRowColumn>
-                                <TableRowColumn>
+                                <TableRowColumn style={{backgroundColor: 'red'}}>
                                     {calcAvailabilityPercent(service, current_time)}
                                 </TableRowColumn>
                                 <TableRowColumn>
