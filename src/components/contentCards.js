@@ -51,8 +51,10 @@ class ContentCards extends React.Component {
                     showMenuIconButton={false}
                     style={appbarStyles.container}
                 />
-                <VisibleServicesTable/>
-                <VisibleAlertsTable/>
+                <div style={{padding: '16px'}}>
+                    <VisibleServicesTable/>
+                    <VisibleAlertsTable/>
+                </div>
             </div>
         )
     }
