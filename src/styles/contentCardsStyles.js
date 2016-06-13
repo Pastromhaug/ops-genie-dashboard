@@ -11,7 +11,10 @@ export const cardHeaderStyles = {
 export const cardStyles = {
     container: {
         margin: '16px',
-        marginBottom: '32px'
+        marginBottom: '32px',
+        maxWidth: '1500px',
+        marginLeft: 'auto',
+        marginRight: 'auto'
     }
 };
 
