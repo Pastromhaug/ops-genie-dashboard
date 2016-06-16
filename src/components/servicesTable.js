@@ -29,7 +29,7 @@ class ServicesTable extends React.Component {
                     <TableBody displayRowCheckbox={false}>
                         {state.services.map( (service) => {
                             var color;
-                            if (service.last_time_available == null) color = 'rgb(218,230,218)';
+                            if (service.last_time_available == null) color = 'rgb(200,225,200';
                             else color = 'rgb(255, 230, 230)';
                             return (
                             <TableRow key={service.service} style={{backgroundColor: color}}>
@@ -53,4 +53,3 @@ class ServicesTable extends React.Component {
 }
 
 export default ServicesTable
-
