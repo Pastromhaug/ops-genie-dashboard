@@ -22,7 +22,7 @@ app.get('/', function (req, res) {
 });
 
 server.listen(8000, function () {
-    console.log('Example app listening on port 8000');
+    console.log('Alerts Dashboard app listening on port 8000');
 });
 
 
