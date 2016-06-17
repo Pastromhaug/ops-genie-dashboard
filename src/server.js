@@ -50,7 +50,7 @@ io.on('connection', function (socket) {
 
 
 
-app.post('/', function(req) {
+app.post('/webhook', function(req) {
     console.log('req.body');
     console.log(req.body);
     console.log('tail -f /var/log/upstart/ops-genie-dashboard.log');
