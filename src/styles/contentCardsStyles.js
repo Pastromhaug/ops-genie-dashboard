@@ -10,11 +10,10 @@ export const cardHeaderStyles = {
 
 export const cardStyles = {
     container: {
-        margin: '16px',
-        marginBottom: '32px',
-        maxWidth: '1500px',
-        marginLeft: 'auto',
-        marginRight: 'auto'
+        height: '-webkit-fit-content',
+        marginLeft: '16px',
+        marginRight: '16px',
+        width: 'auto'
     }
 };
 
@@ -22,10 +21,16 @@ export const appbarStyles = {
     container: {
         marginBottom: '16px',
         textAlign: 'center',
-        backgroundColor: 'rgb(70,77,91)'
+        backgroundColor: 'rgb(70,77,91)',
+        color: 'rgb(243,243,243)'
     }
 };
 
 export const tableRow = {
     fontSize: 'large'
 };
+
+export const tables = {
+    height: '-webkit-fit-content'
+};
+

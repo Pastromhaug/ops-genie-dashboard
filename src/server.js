@@ -53,6 +53,7 @@ io.on('connection', function (socket) {
 app.post('/', function(req) {
     console.log('req.body');
     console.log(req.body);
+    console.log('tail -f /var/log/upstart/ops-genie-dashboard.log');
     if (_.has(req.body.alert, 'alias') && ! _.has(req.body, 'retry')){
         var action = req.body.action;
         if (action == 'Create') {
