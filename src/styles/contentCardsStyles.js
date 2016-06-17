@@ -20,7 +20,7 @@ export const cardStyles = {
 
 export const appbarStyles = {
     container: {
-        marginBottom: '48px',
+        marginBottom: '16px',
         textAlign: 'center',
         backgroundColor: '#a3c1a3'
     }
