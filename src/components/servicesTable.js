@@ -34,9 +34,10 @@ class ServicesTable extends React.Component {
                             var color;
                             if (service.last_time_available == null) color = 'rgb(200,225,200';
                             else color = 'rgb(285, 210, 210)';
-                            tableRow.backgroundColor = color;
+                            var this_row = Object.assign({}, tableRow);
+                            this_row.backgroundColor = color;
                             return (
-                            <TableRow key={service.service} style={tableRow}>
+                            <TableRow key={service.service} style={this_row}>
                                 <TableRowColumn style={{width:100}}>{service.service}</TableRowColumn>
                                 <TableRowColumn style={{width:100}}>
                                     {calcAvailabilityPercent(service, current_time)}
