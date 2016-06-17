@@ -22,6 +22,10 @@ export const appbarStyles = {
     container: {
         marginBottom: '16px',
         textAlign: 'center',
-        backgroundColor: '#a3c1a3'
+        backgroundColor: 'rgb(70,77,91)'
     }
+};
+
+export const tableRow = {
+    fontSize: 'large'
 };

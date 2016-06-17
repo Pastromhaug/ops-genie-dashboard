@@ -4,7 +4,7 @@
 import React from 'react';
 import {Card,CardHeader, CardTitle} from 'material-ui/Card';
 import {Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn} from 'material-ui/Table';
-import {cardHeaderStyles, cardStyles} from '../styles/contentCardsStyles';
+import {cardHeaderStyles, cardStyles, tableRow} from '../styles/contentCardsStyles';
 import {timeDiff, calcAvailabilityPercent, calcSummedAvailabilityIntervals} from '../js/timeUtil';
 
 class ServicesTable extends React.Component {
@@ -20,10 +20,10 @@ class ServicesTable extends React.Component {
                 <Table>
                     <TableHeader displaySelectAll={false} adjustForCheckbox={false}>
                         <TableRow>
-                            <TableHeaderColumn>Service</TableHeaderColumn>
-                            <TableHeaderColumn>Availability</TableHeaderColumn>
-                            <TableHeaderColumn>Total Downtime</TableHeaderColumn>
-                            <TableHeaderColumn>Current Downtime</TableHeaderColumn>
+                            <TableHeaderColumn style={{width:100}}>Service</TableHeaderColumn>
+                            <TableHeaderColumn style={{width:100}}>Availability</TableHeaderColumn>
+                            <TableHeaderColumn style={{width:100}}>Total Downtime</TableHeaderColumn>
+                            <TableHeaderColumn >Current Downtime</TableHeaderColumn>
                         </TableRow>
                     </TableHeader>
                     <TableBody displayRowCheckbox={false}>
@@ -31,16 +31,17 @@ class ServicesTable extends React.Component {
                             var color;
                             if (service.last_time_available == null) color = 'rgb(200,225,200';
                             else color = 'rgb(285, 210, 210)';
+                            tableRow.backgroundColor = color;
                             return (
-                            <TableRow key={service.service} style={{backgroundColor: color}}>
-                                <TableRowColumn>{service.service}</TableRowColumn>
-                                <TableRowColumn >
+                            <TableRow key={service.service} style={tableRow}>
+                                <TableRowColumn style={{width:100}}>{service.service}</TableRowColumn>
+                                <TableRowColumn style={{width:100}}>
                                     {calcAvailabilityPercent(service, current_time)}
                                 </TableRowColumn>
-                                <TableRowColumn>
+                                <TableRowColumn style={{width:100}}>
                                     {timeDiff(calcSummedAvailabilityIntervals(service, current_time), 0)}
                                 </TableRowColumn>
-                                <TableRowColumn>
+                                <TableRowColumn >
                                     {timeDiff(current_time, service.last_time_available)}
                                 </TableRowColumn>
                             </TableRow>
