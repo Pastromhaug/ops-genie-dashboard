@@ -31,7 +31,7 @@ class AlertsTable extends React.Component {
                             var color;
                             var severity = alert.details.severity;
                             if (severity === 'risk' || severity === 'Risk') color = 'rgb(255, 255, 230)';
-                            else color = 'rgb(255, 230, 230)';
+                            else color = 'rgb(285, 210, 210)';
                             return(
                             <TableRow key={alert.id + alert.alias} style={{backgroundColor: color}}>
                                 <TableRowColumn>{alert.entity}</TableRowColumn>

@@ -30,7 +30,7 @@ class ServicesTable extends React.Component {
                         {state.services.map( (service) => {
                             var color;
                             if (service.last_time_available == null) color = 'rgb(200,225,200';
-                            else color = 'rgb(255, 230, 230)';
+                            else color = 'rgb(285, 210, 210)';
                             return (
                             <TableRow key={service.service} style={{backgroundColor: color}}>
                                 <TableRowColumn>{service.service}</TableRowColumn>
