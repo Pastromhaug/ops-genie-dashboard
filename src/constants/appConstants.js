@@ -3,11 +3,12 @@
  */
 
 const SERVICES_TRACKED = [
-    "API",
-    "Content",
-    "Insights",
-    "Video",
-    "Unknown"
+    "Data Engine",
+    "Analytics",
+    "Advertising",
+    "Site Search",
+    "Advanced Search",
+    "Content"
 ];
 
 const AVAILABILITY_DAYS = 30;
