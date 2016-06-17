@@ -8,7 +8,8 @@ const SERVICES_TRACKED = [
     "Advertising",
     "Site Search",
     "Advanced Search",
-    "Content"
+    "Content",
+    "Unknown"
 ];
 
 const AVAILABILITY_DAYS = 30;
