@@ -51,7 +51,7 @@ class ContentCards extends React.Component {
                     showMenuIconButton={false}
                     style={appbarStyles.container}
                 />
-                <div style={{ display: 'flex'}}>
+                <div style={{ display: 'flex', alignItems: 'flex-start'}}>
                     <VisibleServicesTable style={{float: 'left'}}/>
                     <VisibleAlertsTable style={{float: 'left'}}/>
                 </div>

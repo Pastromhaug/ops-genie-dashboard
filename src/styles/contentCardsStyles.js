@@ -10,7 +10,6 @@ export const cardHeaderStyles = {
 
 export const cardStyles = {
     container: {
-        height: '-webkit-fit-content',
         marginLeft: '16px',
         marginRight: '16px',
         width: 'auto'
@@ -31,6 +30,5 @@ export const tableRow = {
 };
 
 export const tables = {
-    height: '-webkit-fit-content'
 };
 
